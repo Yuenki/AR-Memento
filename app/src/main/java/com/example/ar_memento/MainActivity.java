@@ -18,13 +18,16 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.btn_go_to_camera);
         onResume();
     }
+
+    @Override
     protected void onResume() {
         super.onResume();
         final Intent cameraIntent = new Intent(this, CameraActivity.class);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(cameraIntent);
-            }
-        });
+//        button.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                startActivity(cameraIntent);
+//            }
+//        });
+        button.setOnClickListener(v -> startActivity(cameraIntent));
     }
 }
