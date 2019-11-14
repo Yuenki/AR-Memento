@@ -74,6 +74,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
+    // What proceeds here are just some compatibility checks.
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             Log.e(TAG, "Sceneform requires Android N or later");
