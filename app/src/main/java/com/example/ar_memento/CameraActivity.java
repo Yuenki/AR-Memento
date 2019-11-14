@@ -29,6 +29,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
     private ModelRenderable bookRenderable;
+    private ModelRenderable deskRenderable;
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     @Override
@@ -57,9 +58,19 @@ public class CameraActivity extends AppCompatActivity {
                     toast.show();
                     return null;
                 });
+        ModelRenderable.builder()
+                .setSource(this, Uri.parse("Desk.sfb"))
+                .build()
+                .thenAccept(renderable -> deskRenderable = renderable)
+                .exceptionally(throwable -> {
+                    Toast toast = Toast.makeText(this, "Unable to load desk renderable", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return null;
+                });
         arFragment.setOnTapArPlaneListener(
                 (hitResult, plane, motionEvent) -> {
-                    if (bookRenderable == null) {
+                    if (bookRenderable == null || deskRenderable == null) {
                         return;
                     }
                     Anchor anchor = hitResult.createAnchor();
@@ -70,6 +81,11 @@ public class CameraActivity extends AppCompatActivity {
                     book.setParent(anchorNode);
                     book.setRenderable(bookRenderable);
                     book.select();
+
+                    TransformableNode desk = new TransformableNode(arFragment.getTransformationSystem());
+                    desk.setParent(anchorNode);
+                    desk.setRenderable(deskRenderable);
+                    desk.select();
                 });
     }
 
