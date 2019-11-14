@@ -89,6 +89,8 @@
     file: 'sampledata/models/model.obj',
     name: 'model',
     recenter: 'root',
+    //scale was added
+    scale: 1.0,
   },
   version: '0.54:2',
 }

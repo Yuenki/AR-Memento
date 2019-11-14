@@ -89,7 +89,8 @@
     file: 'sampledata/models/Desk.obj',
     name: 'Desk',
     recenter: 'root',
-    scale: 3.0000000000000001e-06,
+    //scale: 3.0000000000000001e-06,
+    scale: 1.0000000000000001e-06,
   },
   version: '0.54:2',
 }
