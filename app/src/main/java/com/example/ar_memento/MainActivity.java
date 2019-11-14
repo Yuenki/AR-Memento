@@ -28,6 +28,6 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(cameraIntent);
 //            }
 //        });
-        button.setOnClickListener(v -> startActivity(cameraIntent));
+        button.setOnClickListener(r -> startActivity(cameraIntent));
     }
 }

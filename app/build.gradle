@@ -44,3 +44,8 @@ sceneform.asset('sampledata/models/model.obj',
         'default',
         'sampledata/models/model.sfa',
         'src/main/assets/model')
+
+sceneform.asset('sampledata/models/Desk.obj',
+        'default',
+        'sampledata/models/Desk.sfa',
+        'src/main/assets/Desk')
