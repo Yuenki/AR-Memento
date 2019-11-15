@@ -9,16 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button button;
+    ImageButton slide_up_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = findViewById(R.id.btn_go_to_camera);
+
+        slide_up_button = (ImageButton) findViewById(R.id.imageButton);
         onResume();
     }
 
@@ -48,6 +50,6 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(cameraIntent);
 //            }
 //        });
-        button.setOnClickListener(r -> startActivity(cameraIntent));
+        slide_up_button.setOnClickListener(r -> startActivity(cameraIntent));
     }
 }
