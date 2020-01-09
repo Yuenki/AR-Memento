@@ -11,7 +11,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.ar.core.Anchor;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
@@ -21,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class CameraActivity extends AppCompatActivity {
@@ -30,6 +34,8 @@ public class CameraActivity extends AppCompatActivity {
     private ArFragment arFragment;
     private ModelRenderable bookRenderable;
     private ModelRenderable deskRenderable;
+    private Node infoCard;
+    private static final float INFO_CARD_Y_POS_COEFF = 0.55f;
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     @Override
@@ -64,10 +70,11 @@ public class CameraActivity extends AppCompatActivity {
                 .thenAccept(renderable -> deskRenderable = renderable)
                 .exceptionally(throwable -> {
                     Toast toast = Toast.makeText(this, "Unable to load desk renderable", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.setGravity(Gravity.CENTER, 150, 0);
                     toast.show();
                     return null;
                 });
+
         arFragment.setOnTapArPlaneListener(
                 (hitResult, plane, motionEvent) -> {
                     if (bookRenderable == null || deskRenderable == null) {
@@ -77,18 +84,25 @@ public class CameraActivity extends AppCompatActivity {
                     AnchorNode anchorNode = new AnchorNode(anchor);
                     anchorNode.setParent(arFragment.getArSceneView().getScene());
 
+                    //having another anchor, specifically for the other object, allows us
+                    //to be able to move these objects separately.
+                    //when we have lots of objects, we are gonna have to implement a for loop
+                    //to be able to make many anchors for each object.
+                    Anchor anchor2 = hitResult.createAnchor();
+                    AnchorNode anchorNode2 = new AnchorNode(anchor2);
+                    anchorNode2.setParent(arFragment.getArSceneView().getScene());
+
                     TransformableNode book = new TransformableNode(arFragment.getTransformationSystem());
                     book.setParent(anchorNode);
                     book.setRenderable(bookRenderable);
                     book.select();
 
                     TransformableNode desk = new TransformableNode(arFragment.getTransformationSystem());
-                    desk.setParent(anchorNode);
+                    desk.setParent(anchorNode2);
                     desk.setRenderable(deskRenderable);
                     desk.select();
                 });
     }
-
 
     // What proceeds here are just some compatibility checks.
     public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
