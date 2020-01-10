@@ -11,7 +11,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.ar.core.Anchor;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.FrameTime;
+import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
@@ -23,9 +26,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class CameraActivity extends AppCompatActivity {
     private static final String TAG = CameraActivity.class.getSimpleName();
@@ -35,7 +42,12 @@ public class CameraActivity extends AppCompatActivity {
     private ModelRenderable bookRenderable;
     private ModelRenderable deskRenderable;
     private Node infoCard;
+    //private final Context context;
+    Context context;
     private static final float INFO_CARD_Y_POS_COEFF = 0.55f;
+
+    // True once scene is loaded
+    private boolean hasFinishedLoading = false;
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     @Override
@@ -53,6 +65,36 @@ public class CameraActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_artest);
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+
+        /*CompletableFuture<ModelRenderable> bookStage =
+                ModelRenderable.builder().setSource(this, Uri.parse("model.sfb")).build();
+
+        CompletableFuture.allOf(
+                bookStage)
+                .handle(
+                        (notUsed, throwable) -> {
+                            // When you build a Renderable, Sceneform loads its resources in the background while
+                            // returning a CompletableFuture. Call handle(), thenAccept(), or check isDone()
+                            // before calling get().
+
+                            if (throwable != null) {
+                                DemoUtils.displayError(this, "Unable to load renderable", throwable);
+                                return null;
+                            }
+
+                            try {
+                                bookRenderable = bookStage.get();
+
+
+                                // Everything finished loading successfully.
+                                hasFinishedLoading = true;
+
+                            } catch (InterruptedException | ExecutionException ex) {
+                                DemoUtils.displayError(this, "Unable to load renderable", ex);
+                            }
+
+                            return null;
+                        }); */
 
         ModelRenderable.builder()
                 .setSource(this, Uri.parse("model.sfb"))
@@ -75,6 +117,15 @@ public class CameraActivity extends AppCompatActivity {
                     return null;
                 });
 
+        /*private Node createObject(
+                String name,
+                Node parent,
+                ModelRenderable renderable) {
+
+            return ;
+        }
+        createObject("Mercury", sun, 0.4f, 47f, bookRenderable, 0.019f, 0.03f); */
+
         arFragment.setOnTapArPlaneListener(
                 (hitResult, plane, motionEvent) -> {
                     if (bookRenderable == null || deskRenderable == null) {
@@ -92,15 +143,37 @@ public class CameraActivity extends AppCompatActivity {
                     AnchorNode anchorNode2 = new AnchorNode(anchor2);
                     anchorNode2.setParent(arFragment.getArSceneView().getScene());
 
-                    TransformableNode book = new TransformableNode(arFragment.getTransformationSystem());
+                    //TransformableNode book = new TransformableNode(arFragment.getTransformationSystem());
+                    Node book= new Node();
                     book.setParent(anchorNode);
                     book.setRenderable(bookRenderable);
-                    book.select();
+                    //book.select();
+                    infoCard = new Node();
+                    infoCard.setParent(anchorNode);
+                    infoCard.setEnabled(false);
+                    book.setOnTapListener(
+                            (hitTestResult, motionEvento) -> infoCard.setEnabled(!infoCard.isEnabled()));
+                    //infoCard.setLocalPosition(new Vector3(1.0f, 1.0f * INFO_CARD_Y_POS_COEFF, 1.0f));
+                    infoCard.setLocalPosition(new Vector3(0.0f,0.25f,0.0f));
+                    ViewRenderable.builder()
+                            .setView(context, R.layout.card_view)//took out context and put in 'this'
+                            .build()
+                            .thenAccept(
+                                    (renderable) -> {
+                                        infoCard.setRenderable(renderable);
+                                        TextView textView = (TextView) renderable.getView();
+                                        // textView.setText(planetName);
+                                        textView.setText("randomText");
+                                    })
+                            .exceptionally(
+                                    (throwable) -> {
+                                        throw new AssertionError("Could not load plane card view.", throwable);
+                                    });
 
-                    TransformableNode desk = new TransformableNode(arFragment.getTransformationSystem());
+                    /*TransformableNode desk = new TransformableNode(arFragment.getTransformationSystem());
                     desk.setParent(anchorNode2);
                     desk.setRenderable(deskRenderable);
-                    desk.select();
+                    desk.select();*/
                 });
     }
 
