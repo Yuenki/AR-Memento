@@ -37,7 +37,7 @@
     file: 'sampledata/models/Eraser_01(1).obj',
     name: 'Eraser_01(1)',
     recenter: 'root',
-    scale: 0.0001,
+    scale: 0.001,
   },
   version: '0.54:2',
 }

@@ -63,7 +63,7 @@
     file: 'sampledata/models/Notebook.obj',
     name: 'Notebook',
     recenter: 'root',
-    scale: 0.000001,
+    scale: 0.0000001,
   },
   version: '0.54:2',
 }
