@@ -50,3 +50,29 @@ sceneform.asset('sampledata/models/Desk.obj',
         'default',
         'sampledata/models/Desk.sfa',
         'src/main/assets/Desk')
+
+
+sceneform.asset('sampledata/models/Eraser_01(1).obj',
+        'default',
+        'sampledata/models/Eraser_01(1).sfa',
+        'src/main/assets/Eraser_01(1)')
+
+sceneform.asset('sampledata/models/Pencil_01.obj',
+        'default',
+        'sampledata/models/Pencil_01.sfa',
+        'src/main/assets/Pencil_01')
+
+sceneform.asset('sampledata/models/Sticky notes.obj',
+        'default',
+        'sampledata/models/Sticky notes.sfa',
+        'src/main/assets/Sticky notes')
+
+sceneform.asset('sampledata/models/Notebook.obj',
+        'default',
+        'sampledata/models/Notebook.sfa',
+        'src/main/assets/Notebook')
+
+sceneform.asset('sampledata/models/Laptop_01.obj',
+        'default',
+        'sampledata/models/Laptop_01.sfa',
+        'src/main/assets/Laptop_01')

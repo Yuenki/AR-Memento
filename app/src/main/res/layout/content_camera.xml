@@ -8,4 +8,6 @@
     tools:context=".CameraActivity"
     tools:showIn="@layout/activity_camera">
 
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
