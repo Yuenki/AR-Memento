@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton slide_up_button;
+    Button ImgButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
+        ImgButton  =findViewById(R.id.ImgButton);
         onResume();
     }
 
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         final Intent cameraIntent = new Intent(this, CameraActivity.class);
+        final Intent ImgPick = new Intent(this,ImagePickActivity.class);
+
+        ImgButton.setOnClickListener(v->startActivity(ImgPick));
 //        button.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
 //                startActivity(cameraIntent);
