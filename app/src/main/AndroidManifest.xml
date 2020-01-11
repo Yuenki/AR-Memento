@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ar_memento">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!--
      The top xmlns:android and xmlns:tools seem to enable the android:
      and tools: below.
@@ -26,9 +27,15 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ImagePickActivity"
+            android:label="ImagePick"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".MainActivity"/>
+
+
         <activity
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera"
@@ -37,6 +44,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ar_memento.MainActivity" />
+
         </activity>
         <!--
          Indicates that the app requires ARCore ("AR Required"). Causes the
