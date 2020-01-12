@@ -37,24 +37,14 @@
         app:srcCompat="@drawable/slideup_button" />
 
     <Button
-<<<<<<< HEAD
         android:id="@+id/ImgButton"
-=======
-        android:id="@+id/Imgbutton"
->>>>>>> 68c0198157d4140e41c57e6ec616da723754fe68
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-<<<<<<< HEAD
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-=======
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.404" />
->>>>>>> 68c0198157d4140e41c57e6ec616da723754fe68
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

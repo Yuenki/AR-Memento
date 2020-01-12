@@ -22,9 +22,12 @@ public class ImagePickActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_image_pick);
 
-        //Views
+        //Toast.makeText(this, "Permisison Denied", Toast.LENGTH_SHORT).show();
+
+
+       //Views
         mImageView=findViewById(R.id.image_view);
         mChooseBtn = findViewById(R.id.choose_image_btn);
 
@@ -33,7 +36,6 @@ public class ImagePickActivity extends AppCompatActivity {
         mChooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //check permisison
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_DENIED) {
@@ -53,6 +55,7 @@ public class ImagePickActivity extends AppCompatActivity {
                     //if System OS is less than marshmallow
                     pickImageFromGallery();
                 }
+
             }
         });
     }
@@ -83,9 +86,11 @@ public class ImagePickActivity extends AppCompatActivity {
     //handles the result of pick image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             //set image to image view
             mImageView.setImageURI(data.getData());
         }
     }
+
 }

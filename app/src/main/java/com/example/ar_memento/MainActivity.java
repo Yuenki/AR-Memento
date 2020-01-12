@@ -24,12 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
-<<<<<<< HEAD
         ImgButton  =findViewById(R.id.ImgButton);
-=======
-        ImgButton  =findViewById(R.id.Imgbutton);
->>>>>>> 68c0198157d4140e41c57e6ec616da723754fe68
         onResume();
+
     }
 
     @Override
@@ -48,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     @Override
     protected void onResume() {
         super.onResume();
