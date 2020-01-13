@@ -1,3 +1,0 @@
-dryerase|./dryerase_100.jpg
-plant|./plant_75.jpg
-supplies|supplies_80.jp
