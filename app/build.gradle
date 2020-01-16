@@ -26,20 +26,19 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "com.google.android.material:material:1.1.0-alpha02"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.ar:core:1.13.0'
     implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.13.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    //implementation 'com.android.support:support-annotations:+'
     //implementation 'com.google.ar.sceneform:core:1.13.0'
 
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.preference:preference:1.1.0-alpha05'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
-
 
 
 sceneform.asset('sampledata/models/model.obj',
@@ -51,3 +50,29 @@ sceneform.asset('sampledata/models/Desk.obj',
         'default',
         'sampledata/models/Desk.sfa',
         'src/main/assets/Desk')
+
+
+sceneform.asset('sampledata/models/Eraser_01(1).obj',
+        'default',
+        'sampledata/models/Eraser_01(1).sfa',
+        'src/main/assets/Eraser_01(1)')
+
+sceneform.asset('sampledata/models/Pencil_01.obj',
+        'default',
+        'sampledata/models/Pencil_01.sfa',
+        'src/main/assets/Pencil_01')
+
+sceneform.asset('sampledata/models/Sticky notes.obj',
+        'default',
+        'sampledata/models/Sticky notes.sfa',
+        'src/main/assets/Sticky notes')
+
+sceneform.asset('sampledata/models/Notebook.obj',
+        'default',
+        'sampledata/models/Notebook.sfa',
+        'src/main/assets/Notebook')
+
+sceneform.asset('sampledata/models/Laptop_01.obj',
+        'default',
+        'sampledata/models/Laptop_01.sfa',
+        'src/main/assets/Laptop_01')

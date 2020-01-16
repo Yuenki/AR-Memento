@@ -1,0 +1,43 @@
+{
+  materials: [
+    {
+      name: 'blinn8SG',
+      parameters: [
+        {
+          baseColor: null,
+        },
+        {
+          baseColorTint: [
+            0.87,
+            0.12,
+            0.28999999999999998,
+            1,
+          ],
+        },
+        {
+          metallic: 0,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/models/Eraser_01(1).obj',
+    name: 'Eraser_01(1)',
+    recenter: 'root',
+    scale: 0.001,
+  },
+  version: '0.54:2',
+}

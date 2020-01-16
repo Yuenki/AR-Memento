@@ -1,6 +1,58 @@
 {
   materials: [
     {
+      name: '09___Default',
+      parameters: [
+        {
+          baseColor: null,
+        },
+        {
+          baseColorTint: [
+            0.9647,
+            0,
+            1,
+            1,
+          ],
+        },
+        {
+          metallic: 1,
+        },
+        {
+          roughness: 0.408248,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+    {
+      name: '02___Default',
+      parameters: [
+        {
+          baseColor: null,
+        },
+        {
+          baseColorTint: [
+            0.18820000000000001,
+            1,
+            0,
+            1,
+          ],
+        },
+        {
+          metallic: 1,
+        },
+        {
+          roughness: 0.408248,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
+    },
+    {
       name: '03___Default',
       parameters: [
         {
@@ -8,9 +60,9 @@
         },
         {
           baseColorTint: [
-            0.26269999999999999,
-            0.10199999999999999,
-            0.019599999999999999,
+            0,
+            0.28239999999999998,
+            1,
             1,
           ],
         },
@@ -34,9 +86,9 @@
         },
         {
           baseColorTint: [
-            0.78820000000000001,
-            0.55689999999999995,
-            0.49409999999999998,
+            0.87060000000000004,
+            1,
+            0,
             1,
           ],
         },
@@ -53,16 +105,16 @@
       source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
     },
     {
-      name: '02___Default',
+      name: '08___Default',
       parameters: [
         {
           baseColor: null,
         },
         {
           baseColorTint: [
-            0.58819999999999995,
-            0.58819999999999995,
-            0.58819999999999995,
+            1,
+            0,
+            0,
             1,
           ],
         },
@@ -86,10 +138,10 @@
       'Orientation',
     ],
     collision: {},
-    file: 'sampledata/models/Desk.obj',
-    name: 'Desk',
+    file: 'sampledata/models/Sticky notes.obj',
+    name: 'Sticky notes',
     recenter: 'root',
-    scale: 3.0000000000000001e-06,
+    scale: 9.7e-05,
   },
   version: '0.54:2',
 }

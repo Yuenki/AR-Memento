@@ -3,4 +3,5 @@
     <string name="hello_ar">Hello AR!</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="move_to_camera_screen">Move to Camera screen</string>
+
 </resources>
