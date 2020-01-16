@@ -7,4 +7,10 @@
         android:id="@+id/settings"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/GalleryPic"
+        android:title="Gallery" />
+    <item
+        android:id="@+id/profile"
+        android:title="Profile" />
 </menu>
