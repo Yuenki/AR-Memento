@@ -36,6 +36,16 @@
             android:label="Settings"
             android:parentActivityName=".MainActivity"/>
 
+<!--        Activity that recognizes images. The symbol portion.-->
+<!--        This should be used as a LAST RESORT to handle config changes.-->
+<!--        android:configChanges="orientation|screenSize"-->
+<!--        This^ does not restart the activity due to config changes-->
+        <activity
+            android:name=".ScannerActivity"
+            android:label="ScannerActivity"
+            android:screenOrientation="locked"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
         <activity
             android:name=".CameraActivity"
