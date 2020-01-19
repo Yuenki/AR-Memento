@@ -19,21 +19,25 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     ImageButton slide_up_button;
     Button ImgButton;
+    Button scannerButton;
 
     private DrawerLayout mNavDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_drawer_layout);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mNavDrawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,mNavDrawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         mNavDrawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        //Set up buttons
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
         ImgButton  =findViewById(R.id.ImgButton);
-        onResume();
+        scannerButton = findViewById(R.id.scannerButton);
 
     }
 
@@ -70,13 +74,10 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         final Intent cameraIntent = new Intent(this, CameraActivity.class);
         final Intent ImgPick = new Intent(this,ImagePickActivity.class);
+        final Intent scannerIntent = new Intent(this, ScannerActivity.class);
 
+        scannerButton.setOnClickListener(s -> startActivity(scannerIntent));
         ImgButton.setOnClickListener(v->startActivity(ImgPick));
-//        button.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                startActivity(cameraIntent);
-//            }
-//        });
         slide_up_button.setOnClickListener(r -> startActivity(cameraIntent));
     }
 }
