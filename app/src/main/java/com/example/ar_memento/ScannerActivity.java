@@ -1,7 +1,6 @@
 package com.example.ar_memento;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,7 +18,6 @@ import java.util.Map;
 public class ScannerActivity extends AppCompatActivity {
     private ArFragment arFragment;
     private ImageView fitToScanView;
-    private static final String TAG = "ScannerActivity";
     // Augmented image and its associated center pose anchor, keyed by the augmented image in
     // the database.
     private final Map<AugmentedImage, ScannerImageNode> augmentedImageMap = new HashMap<>();
@@ -30,8 +28,8 @@ public class ScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scanner);
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+        // Overlay, img view, that prompts user to fit the image they are scanning.
         fitToScanView = findViewById(R.id.image_view_fit_to_scan);
-
         arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
     }
 
@@ -55,6 +53,8 @@ public class ScannerActivity extends AppCompatActivity {
                 frame.getUpdatedTrackables(AugmentedImage.class);
         for (AugmentedImage augmentedImage : updatedAugmentedImages) {
             switch (augmentedImage.getTrackingState()) {
+                // TODO: Snackbar will need to be removed from PAUSED case.
+                //  It's current purpose is to debug.
                 case PAUSED:
                     // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
                     // but not yet tracked.

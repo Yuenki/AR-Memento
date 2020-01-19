@@ -17,6 +17,7 @@ public final class SnackbarHelper {
         FINISH
     };
 
+    // TODO: Copy this to get instance to access methods on the class!
     public static SnackbarHelper getInstance() {
         return THE_INSTANCE;
     }

@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // nav_drawer_layout includes activity_main.
         setContentView(R.layout.nav_drawer_layout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mNavDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //Set up buttons
+        //Connects buttons to corresponding buttons in activity_main.
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
         ImgButton  =findViewById(R.id.ImgButton);
         scannerButton = findViewById(R.id.scannerButton);
