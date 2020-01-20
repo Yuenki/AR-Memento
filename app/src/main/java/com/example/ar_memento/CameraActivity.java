@@ -14,6 +14,7 @@ import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
@@ -22,6 +23,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -74,19 +76,17 @@ public class CameraActivity extends AppCompatActivity {
                     }
 
                     Anchor anchor = hitResult.createAnchor();
-
                     placeObject(arFragment, anchor, selectedObject);
                     makeinfoCards(arFragment, anchor, context);
-                    infoCard.setEnabled(!infoCard.isEnabled());
+                    //infoCard.setEnabled(!infoCard.isEnabled());
 
                 }
         );
 
-
     }
 
-    /* What proceeds here are just some compatibility checks.
-    public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
+    // What proceeds here are just some compatibility checks.
+    /*public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             Log.e(TAG, "Sceneform requires Android N or later");
             Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
@@ -105,7 +105,7 @@ public class CameraActivity extends AppCompatActivity {
             return false;
         }
         return true;
-    }*/
+    } */
 
     private void InitializeAssetsMenu(){
         LinearLayout gallery = findViewById(R.id.asset_layout);
@@ -135,7 +135,7 @@ public class CameraActivity extends AppCompatActivity {
         gallery.addView(notebook);
     }
 
-    private void placeObject(ArFragment arFragment, Anchor anchor, Uri model){
+    private void placeObject(@NonNull ArFragment arFragment, Anchor anchor, Uri model){
         ModelRenderable.builder()
                 .setSource(arFragment.getContext(), model)
                 .build()
@@ -158,6 +158,7 @@ public class CameraActivity extends AppCompatActivity {
         node.setParent(anchorNode);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
+
     }
 
     private void makeinfoCards(ArFragment arFragment, Anchor anchor, Context context) {
@@ -167,9 +168,14 @@ public class CameraActivity extends AppCompatActivity {
             infoCard.setParent(anchorNode);
             infoCard.setEnabled(false);
             infoCard.setLocalPosition(new Vector3(0.0f, 2.90f * INFO_CARD_Y_POS_COEFF, 0.0f));
-
+            //below would hide/bring up the info card on tap
+            infoCard.setOnTapListener(  //anchorNode.setOnTapListener doesn't make info card appear either
+                    (hitTestResult, motionEvent) -> {
+                        infoCard.setEnabled(!infoCard.isEnabled());
+                    }
+            );
             ViewRenderable.builder()
-                    .setView(context, R.layout.card_view)
+                    .setView(arFragment.getContext(), R.layout.card_view) //could context not be working properly?
                     .build()
                     .thenAccept(
                             (renderable) -> {
@@ -182,6 +188,8 @@ public class CameraActivity extends AppCompatActivity {
                                 throw new AssertionError("Could not load plane card view.", throwable);
                             });
         }
+        //infoCard.setOnTapListener();
+
     }
 
 }
