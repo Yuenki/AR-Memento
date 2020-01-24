@@ -87,38 +87,6 @@ public class CameraActivity extends AppCompatActivity {
 
                 }
         );
-        // Set up a tap gesture detector.
-        gestureDetector =
-                new GestureDetector(
-                        this,
-                        new GestureDetector.SimpleOnGestureListener() {
-                            @Override
-                            public boolean onSingleTapUp(MotionEvent e) {
-                                onSingleTap(e);
-                                return true;
-                            }
-
-                            @Override
-                            public boolean onDown(MotionEvent e) {
-                                return true;
-                            }
-                        });
-
-        // Set a touch listener on the Scene to listen for taps.
-        arSceneView
-                .getScene()
-                .setOnTouchListener(
-                        (HitTestResult hitTestResult, MotionEvent event) -> {
-                            // If the solar system hasn't been placed yet, detect a tap and then check to see if
-                            // the tap occurred on an ARCore plane to place the solar system.
-                            /*if (!hasPlacedSolarSystem) {
-                                return gestureDetector.onTouchEvent(event);
-                            }*/
-
-                            // Otherwise return false so that the touch event can propagate to the scene.
-                            return false;
-                        });
-
 
     }
 
@@ -203,7 +171,7 @@ public class CameraActivity extends AppCompatActivity {
         if (infoCard == null) {
             AnchorNode anchorNode = new AnchorNode(anchor);
             infoCard = new Node();
-            infoCard.setParent(node); //used to be anchorNode. testing to see if it works.
+            infoCard.setParent(anchorNode); //used to be anchorNode. testing to see if it works.
             infoCard.setEnabled(false);
             infoCard.setLocalPosition(new Vector3(0.0f, 2.90f * INFO_CARD_Y_POS_COEFF, 0.0f));
             //below would hide/bring up the info card on tap
@@ -213,7 +181,7 @@ public class CameraActivity extends AppCompatActivity {
                     }
             );
             ViewRenderable.builder()
-                    .setView(this, R.layout.card_view) //could context not be working properly?
+                    .setView(arFragment.getContext(), R.layout.card_view) //could context not be working properly?
                     .build()
                     .thenAccept(
                             (renderable) -> {
@@ -226,20 +194,9 @@ public class CameraActivity extends AppCompatActivity {
                                 throw new AssertionError("Could not load plane card view.", throwable);
                             });
         }
+
         //infoCard.setOnTapListener();
 
     }
-    private void onSingleTap(MotionEvent tap) {
-        /*if (!hasFinishedLoading) {
-            // We can't do anything yet.
-            return;
-        }*/
 
-        Frame frame = arSceneView.getArFrame();
-        /*if (frame != null) {
-            if (!hasPlacedSolarSystem && tryPlaceSolarSystem(tap, frame)) {
-                hasPlacedSolarSystem = true;
-            }
-        }*/
-    }
 }
