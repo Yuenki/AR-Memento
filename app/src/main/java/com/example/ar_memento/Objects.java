@@ -1,4 +1,4 @@
-/*package com.example.ar_memento;
+package com.example.ar_memento;
 
 //import android.content.Context;
 //import android.view.MotionEvent;
@@ -105,4 +105,3 @@ public class Objects extends Node implements Node.OnTapListener {
     }
 }
 
-*/

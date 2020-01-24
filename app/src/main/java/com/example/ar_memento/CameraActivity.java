@@ -11,9 +11,11 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.ar.core.Anchor;
+import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.ArSceneView;
 import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.math.Vector3;
@@ -28,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,12 +42,14 @@ import android.widget.Toast;
 public class CameraActivity extends AppCompatActivity {
 //    private static final String TAG = CameraActivity.class.getSimpleName();
 //    private static final double MIN_OPENGL_VERSION = 3.0;
-
+    private GestureDetector gestureDetector;
+    private ArSceneView arSceneView;
     private ArFragment arFragment;
     private Uri selectedObject;
     private Node infoCard;
     private Context context;
     private static final float INFO_CARD_Y_POS_COEFF = 0.55f;
+    private ModelRenderable laptopRenderable;
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     @Override
@@ -77,11 +82,43 @@ public class CameraActivity extends AppCompatActivity {
 
                     Anchor anchor = hitResult.createAnchor();
                     placeObject(arFragment, anchor, selectedObject);
-                    makeinfoCards(arFragment, anchor, context);
+                    //makeinfoCards(arFragment, anchor, context);
                     //infoCard.setEnabled(!infoCard.isEnabled());
 
                 }
         );
+        // Set up a tap gesture detector.
+        gestureDetector =
+                new GestureDetector(
+                        this,
+                        new GestureDetector.SimpleOnGestureListener() {
+                            @Override
+                            public boolean onSingleTapUp(MotionEvent e) {
+                                onSingleTap(e);
+                                return true;
+                            }
+
+                            @Override
+                            public boolean onDown(MotionEvent e) {
+                                return true;
+                            }
+                        });
+
+        // Set a touch listener on the Scene to listen for taps.
+        arSceneView
+                .getScene()
+                .setOnTouchListener(
+                        (HitTestResult hitTestResult, MotionEvent event) -> {
+                            // If the solar system hasn't been placed yet, detect a tap and then check to see if
+                            // the tap occurred on an ARCore plane to place the solar system.
+                            /*if (!hasPlacedSolarSystem) {
+                                return gestureDetector.onTouchEvent(event);
+                            }*/
+
+                            // Otherwise return false so that the touch event can propagate to the scene.
+                            return false;
+                        });
+
 
     }
 
@@ -158,24 +195,25 @@ public class CameraActivity extends AppCompatActivity {
         node.setParent(anchorNode);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
+        makeinfoCards(arFragment, anchor, context, node);
 
     }
 
-    private void makeinfoCards(ArFragment arFragment, Anchor anchor, Context context) {
+    private void makeinfoCards(ArFragment arFragment, Anchor anchor, Context context, TransformableNode node) {
         if (infoCard == null) {
             AnchorNode anchorNode = new AnchorNode(anchor);
             infoCard = new Node();
-            infoCard.setParent(anchorNode);
+            infoCard.setParent(node); //used to be anchorNode. testing to see if it works.
             infoCard.setEnabled(false);
             infoCard.setLocalPosition(new Vector3(0.0f, 2.90f * INFO_CARD_Y_POS_COEFF, 0.0f));
             //below would hide/bring up the info card on tap
-            infoCard.setOnTapListener(  //anchorNode.setOnTapListener doesn't make info card appear either
+            node.setOnTapListener(  //anchorNode.setOnTapListener doesn't make info card appear either
                     (hitTestResult, motionEvent) -> {
                         infoCard.setEnabled(!infoCard.isEnabled());
                     }
             );
             ViewRenderable.builder()
-                    .setView(arFragment.getContext(), R.layout.card_view) //could context not be working properly?
+                    .setView(this, R.layout.card_view) //could context not be working properly?
                     .build()
                     .thenAccept(
                             (renderable) -> {
@@ -191,5 +229,17 @@ public class CameraActivity extends AppCompatActivity {
         //infoCard.setOnTapListener();
 
     }
+    private void onSingleTap(MotionEvent tap) {
+        /*if (!hasFinishedLoading) {
+            // We can't do anything yet.
+            return;
+        }*/
 
+        Frame frame = arSceneView.getArFrame();
+        /*if (frame != null) {
+            if (!hasPlacedSolarSystem && tryPlaceSolarSystem(tap, frame)) {
+                hasPlacedSolarSystem = true;
+            }
+        }*/
+    }
 }
