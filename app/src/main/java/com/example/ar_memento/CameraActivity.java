@@ -11,45 +11,31 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.ar.core.Anchor;
-import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
-import com.google.ar.sceneform.ArSceneView;
-import com.google.ar.sceneform.HitTestResult;
-import com.google.ar.sceneform.Node;
-import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
-import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class CameraActivity extends AppCompatActivity {
 //    private static final String TAG = CameraActivity.class.getSimpleName();
 //    private static final double MIN_OPENGL_VERSION = 3.0;
-    private GestureDetector gestureDetector;
-    private ArSceneView arSceneView;
+
     private ArFragment arFragment;
     private Uri selectedObject;
-    private Node infoCard;
-    private Context context;
-    private static final float INFO_CARD_Y_POS_COEFF = 0.55f;
-    private ModelRenderable laptopRenderable;
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     @Override
@@ -65,8 +51,7 @@ public class CameraActivity extends AppCompatActivity {
 //        if (!checkIsSupportedDeviceOrFinish(this)) {
 //            return;
 //        }
-        //Context context;
-        //this.context = context;
+
         setContentView(R.layout.activity_artest);
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
@@ -81,36 +66,38 @@ public class CameraActivity extends AppCompatActivity {
                     }
 
                     Anchor anchor = hitResult.createAnchor();
+
                     placeObject(arFragment, anchor, selectedObject);
-                    //makeinfoCards(arFragment, anchor, context);
-                    //infoCard.setEnabled(!infoCard.isEnabled());
 
                 }
         );
 
+
     }
 
+
+
     // What proceeds here are just some compatibility checks.
-    /*public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            Log.e(TAG, "Sceneform requires Android N or later");
-            Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
-            activity.finish();
-            return false;
-        }
-        String openGlVersionString =
-                ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE))
-                        .getDeviceConfigurationInfo()
-                        .getGlEsVersion();
-        if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
-            Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
-            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
-                    .show();
-            activity.finish();
-            return false;
-        }
-        return true;
-    } */
+//    public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//            Log.e(TAG, "Sceneform requires Android N or later");
+//            Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
+//            activity.finish();
+//            return false;
+//        }
+//        String openGlVersionString =
+//                ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE))
+//                        .getDeviceConfigurationInfo()
+//                        .getGlEsVersion();
+//        if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
+//            Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
+//            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
+//                    .show();
+//            activity.finish();
+//            return false;
+//        }
+//        return true;
+//    }
 
     private void InitializeAssetsMenu(){
         LinearLayout gallery = findViewById(R.id.asset_layout);
@@ -140,7 +127,7 @@ public class CameraActivity extends AppCompatActivity {
         gallery.addView(notebook);
     }
 
-    private void placeObject(@NonNull ArFragment arFragment, Anchor anchor, Uri model){
+    private void placeObject(ArFragment arFragment, Anchor anchor, Uri model){
         ModelRenderable.builder()
                 .setSource(arFragment.getContext(), model)
                 .build()
@@ -163,40 +150,6 @@ public class CameraActivity extends AppCompatActivity {
         node.setParent(anchorNode);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
-        makeinfoCards(arFragment, anchor, context, node);
-
-    }
-
-    private void makeinfoCards(ArFragment arFragment, Anchor anchor, Context context, TransformableNode node) {
-        if (infoCard == null) {
-            AnchorNode anchorNode = new AnchorNode(anchor);
-            infoCard = new Node();
-            infoCard.setParent(anchorNode); //used to be anchorNode. testing to see if it works.
-            infoCard.setEnabled(false);
-            infoCard.setLocalPosition(new Vector3(0.0f, 2.90f * INFO_CARD_Y_POS_COEFF, 0.0f));
-            //below would hide/bring up the info card on tap
-            node.setOnTapListener(  //anchorNode.setOnTapListener doesn't make info card appear either
-                    (hitTestResult, motionEvent) -> {
-                        infoCard.setEnabled(!infoCard.isEnabled());
-                    }
-            );
-            ViewRenderable.builder()
-                    .setView(arFragment.getContext(), R.layout.card_view) //could context not be working properly?
-                    .build()
-                    .thenAccept(
-                            (renderable) -> {
-                                infoCard.setRenderable(renderable);
-                                TextView textView = (TextView) renderable.getView();
-                                textView.setText("random");
-                            })
-                    .exceptionally(
-                            (throwable) -> {
-                                throw new AssertionError("Could not load plane card view.", throwable);
-                            });
-        }
-
-        //infoCard.setOnTapListener();
-
     }
 
 }

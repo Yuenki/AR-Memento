@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ar_memento">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!--
      The top xmlns:android and xmlns:tools seem to enable the android:
      and tools: below.
@@ -25,10 +26,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+            android:name=".ImagePickActivity"
+            android:label="ImagePick"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".MainActivity"/>
+
+<!--        Activity that recognizes images. The symbol portion.-->
+<!--        This should be used as a LAST RESORT to handle config changes.-->
+<!--        android:configChanges="orientation|screenSize"-->
+<!--        This^ does not restart the activity due to config changes-->
+        <activity
+            android:name=".ScannerActivity"
+            android:label="ScannerActivity"
+            android:screenOrientation="locked"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <activity
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera"
@@ -37,6 +55,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ar_memento.MainActivity" />
+
         </activity>
         <!--
          Indicates that the app requires ARCore ("AR Required"). Causes the
@@ -51,7 +70,7 @@
         Although the activities work together to form a cohesive user
         experience in the app,each one is independent of the others
         -->
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
