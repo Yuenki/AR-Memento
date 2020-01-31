@@ -1,16 +1,5 @@
 package com.example.ar_memento;
 
-//import android.content.Context;
-//import android.view.MotionEvent;
-//import android.widget.TextView;
-//import com.google.ar.sceneform.FrameTime;
-//import com.google.ar.sceneform.HitTestResult;
-//import com.google.ar.sceneform.Node;
-//import com.google.ar.sceneform.math.Quaternion;
-//import com.google.ar.sceneform.math.Vector3;
-//import com.google.ar.sceneform.rendering.ModelRenderable;
-//import com.google.ar.sceneform.rendering.ViewRenderable;
-
 
 import android.content.Context;
 import android.view.MotionEvent;
@@ -54,8 +43,8 @@ public class Objects extends Node implements Node.OnTapListener {
         if (infoCard == null) {
             infoCard = new Node();
             infoCard.setParent(this);
-            infoCard.setEnabled(false);
-            infoCard.setLocalPosition(new Vector3(0.0f, 0.01f * INFO_CARD_Y_POS_COEFF, 0.0f));
+            infoCard.setEnabled(true);
+            infoCard.setLocalPosition(new Vector3(-0.7f, 0.51f * INFO_CARD_Y_POS_COEFF, 0.0f));
 
             ViewRenderable.builder()
                     .setView(context, R.layout.card_view)
@@ -65,7 +54,7 @@ public class Objects extends Node implements Node.OnTapListener {
                                 infoCard.setRenderable(renderable);
                                 TextView textView = (TextView) renderable.getView();
                                 // textView.setText(planetName);
-                                textView.setText("randomText");
+                                textView.setText(this.objectsName);
                             })
                     .exceptionally(
                             (throwable) -> {
