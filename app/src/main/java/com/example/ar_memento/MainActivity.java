@@ -16,9 +16,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.navigation.NavigationView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageButton slide_up_button;
-    Button ImgButton;
+    //Button ImgButton;
 
     private DrawerLayout mNavDrawer;
     @Override
@@ -27,14 +29,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.nav_drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         mNavDrawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,mNavDrawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         mNavDrawer.addDrawerListener(toggle);
         toggle.syncState();
+
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
-        ImgButton  =findViewById(R.id.ImgButton);
+        //ImgButton  =findViewById(R.id.ImgButton);
+
+
         onResume();
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.GalleryPic:
+                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new GalleryFragment()).commit();
+                break;
+            case R.id.profile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
+                break;
+        }
+        mNavDrawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
@@ -71,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent cameraIntent = new Intent(this, CameraActivity.class);
         final Intent ImgPick = new Intent(this,ImagePickActivity.class);
 
-        ImgButton.setOnClickListener(v->startActivity(ImgPick));
+//        ImgButton.setOnClickListener(v->startActivity(ImgPick));
 //        button.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
 //                startActivity(cameraIntent);
