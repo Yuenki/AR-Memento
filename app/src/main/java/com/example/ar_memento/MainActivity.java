@@ -21,12 +21,16 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageButton slide_up_button;
     //Button ImgButton;
+    Button scannerButton;
+
 
     private DrawerLayout mNavDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // nav_drawer_layout includes activity_main.
         setContentView(R.layout.nav_drawer_layout);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -37,10 +41,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
+        //Connects buttons to corresponding buttons in activity_main.
         //ImgButton  =findViewById(R.id.ImgButton);
-
-
+        scannerButton = findViewById(R.id.scannerButton);
         onResume();
 
     }
@@ -92,13 +97,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         final Intent cameraIntent = new Intent(this, CameraActivity.class);
         final Intent ImgPick = new Intent(this,ImagePickActivity.class);
+        final Intent scannerIntent = new Intent(this, ScannerActivity.class);
 
-//        ImgButton.setOnClickListener(v->startActivity(ImgPick));
-//        button.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                startActivity(cameraIntent);
-//            }
-//        });
+
+        scannerButton.setOnClickListener(s -> startActivity(scannerIntent));
+        //ImgButton.setOnClickListener(v->startActivity(ImgPick));
         slide_up_button.setOnClickListener(r -> startActivity(cameraIntent));
     }
 }
