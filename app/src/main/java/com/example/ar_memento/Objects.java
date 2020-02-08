@@ -16,6 +16,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 public class Objects extends Node implements Node.OnTapListener {
     private final String objectsName;
     private final ModelRenderable objectsRenderable;
+    private final Node parent;
 
     private Node infoCard;
     private final Context context;
@@ -25,10 +26,12 @@ public class Objects extends Node implements Node.OnTapListener {
     public Objects(
             Context context,
             String objectsName,
-            ModelRenderable objectsRenderable) {
+            ModelRenderable objectsRenderable,
+            Node parent) {
         this.context = context;
         this.objectsName = objectsName;
         this.objectsRenderable = objectsRenderable;
+        this.parent=parent;
         setOnTapListener(this);
     }
 
@@ -53,7 +56,6 @@ public class Objects extends Node implements Node.OnTapListener {
                             (renderable) -> {
                                 infoCard.setRenderable(renderable);
                                 TextView textView = (TextView) renderable.getView();
-                                // textView.setText(planetName);
                                 textView.setText(this.objectsName);
                             })
                     .exceptionally(
@@ -66,12 +68,13 @@ public class Objects extends Node implements Node.OnTapListener {
 
     @Override
     public void onTap(HitTestResult hitTestResult, MotionEvent motionEvent) {
-        if (infoCard == null) {
+        /*if (infoCard == null) {
             return;
-        }
+        }*/
 
         infoCard.setEnabled(!infoCard.isEnabled());
     }
+
 
     @Override
     public void onUpdate(FrameTime frameTime) {

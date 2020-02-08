@@ -16,11 +16,14 @@ import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.ArSceneView;
+import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
+import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
@@ -34,8 +37,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.GestureDetector;
+import com.google.ar.sceneform.FrameTime;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -47,6 +52,7 @@ public class CameraActivity extends AppCompatActivity {
     private ArFragment arFragment;
     private Uri selectedObject;
     private ModelRenderable laptopRenderable;
+    private ViewRenderable cardRenderable;
     private GestureDetector gestureDetector;
     private ArSceneView arSceneView;
     private String objectName;
@@ -71,14 +77,18 @@ public class CameraActivity extends AppCompatActivity {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
 
         InitializeAssetsMenu();
-        CompletableFuture<ModelRenderable> laptopStage =
-                            ModelRenderable.builder().setSource(this, Uri.parse("Laptop_01.sfb")).build();
+        /*CompletableFuture<ModelRenderable> laptopStage =
+                            ModelRenderable.builder().setSource(this, Uri.parse("Laptop_01.sfb")).build();*/
+        CompletableFuture<ViewRenderable> solarControlsStage =
+                ViewRenderable.builder().setView(this, R.layout.card_view).build();
         CompletableFuture.allOf(
-                laptopStage)
+                //laptopStage,
+                solarControlsStage)
                 .handle(
                         (notUsed, throwable) -> {
                             try {
-                                laptopRenderable= laptopStage.get();
+                                //laptopRenderable= laptopStage.get();
+                                cardRenderable= solarControlsStage.get();
                             }catch (InterruptedException | ExecutionException ex) {
 
                             }
@@ -177,26 +187,47 @@ public class CameraActivity extends AppCompatActivity {
         node.setParent(anchorNode);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
-        createPlanet(objectName, anchorNode, 0.7f, laptopRenderable); //testing with laptop model for now.
+        createInfoCard(node);
+        //createPlanet(objectName, node, 0.7f, laptopRenderable); //testing with laptop model for now.
+
     }
-    private Node createPlanet(
+    private Node createInfoCard(TransformableNode parent){
+        Node infoCard = new Node();
+        infoCard.setParent(parent);
+        infoCard.setEnabled(true);
+        infoCard.setRenderable(cardRenderable);
+        TextView textView = (TextView)cardRenderable.getView();
+        textView.setText(this.objectName);
+        infoCard.setLocalPosition(new Vector3(0.0f, 0.25f, 0.0f));
+        parent.setOnTapListener(
+                (hitTestResult, motionEvent) -> infoCard.setEnabled(!infoCard.isEnabled()));
+
+        return infoCard;
+    }
+    /*private Node createPlanet(
             String name,
-            Node parent,
+            TransformableNode parent,
             float auFromParent,
             ModelRenderable renderable) {
-        // Orbit is a rotating node with no renderable positioned at the sun.
-        // The planet is positioned relative to the orbit so that it appears to rotate around the sun.
-        // This is done instead of making the sun rotate so each planet can orbit at its own speed.
-        //RotatingNode orbit = new RotatingNode(solarSettings, true, false, 0);
-        //orbit.setDegreesPerSecond(orbitDegreesPerSecond);
-        //orbit.setParent(parent);
 
         // Create the planet and position it relative to the sun.
-        Objects object = new Objects( this, name, renderable);
+        Objects object = new Objects( this, name, renderable, parent);
 
         object.setParent(parent);
         object.setLocalPosition(new Vector3(auFromParent, 0.0f, 0.0f));
 
+
+        Node solarControls = new Node();
+        solarControls.setParent(parent);
+        solarControls.setEnabled(true);
+        solarControls.setRenderable(cardRenderable);
+        TextView textView = (TextView) cardRenderable.getView();
+        textView.setText(this.objectName);
+        solarControls.setLocalPosition(new Vector3(0.0f, 0.25f, 0.0f));
+        View solarControlsView = cardRenderable.getView();
+        parent.setOnTapListener(
+                (hitTestResult, motionEvent) -> solarControls.setEnabled(!solarControls.isEnabled()));
+
         return object;
-    }
+    }*/
 }
