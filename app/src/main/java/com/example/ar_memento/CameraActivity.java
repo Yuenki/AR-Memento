@@ -77,17 +77,13 @@ public class CameraActivity extends AppCompatActivity {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
 
         InitializeAssetsMenu();
-        /*CompletableFuture<ModelRenderable> laptopStage =
-                            ModelRenderable.builder().setSource(this, Uri.parse("Laptop_01.sfb")).build();*/
         CompletableFuture<ViewRenderable> solarControlsStage =
                 ViewRenderable.builder().setView(this, R.layout.card_view).build();
         CompletableFuture.allOf(
-                //laptopStage,
                 solarControlsStage)
                 .handle(
                         (notUsed, throwable) -> {
                             try {
-                                //laptopRenderable= laptopStage.get();
                                 cardRenderable= solarControlsStage.get();
                             }catch (InterruptedException | ExecutionException ex) {
 
@@ -106,8 +102,6 @@ public class CameraActivity extends AppCompatActivity {
                     Anchor anchor = hitResult.createAnchor();
 
                     placeObject(arFragment, anchor, selectedObject); //selectedObject is the renderable (like laptopRenderable)
-                    /*CompletableFuture<ModelRenderable> laptopStage =
-                            ModelRenderable.builder().setSource(this, Uri.parse("Laptop_01.sfb")).build();*/
 
                 }
         );
@@ -178,7 +172,6 @@ public class CameraActivity extends AppCompatActivity {
                     dialog.show();
                     return null;
                 }));
-        //createPlanet("Venus", anchor, 0.7f, 35f, model, 0.0475f, 2.64f);
     }
     private void addNodeToScene(ArFragment arFragment, Anchor anchor, Renderable renderable){
         AnchorNode anchorNode = new AnchorNode(anchor);
@@ -188,8 +181,6 @@ public class CameraActivity extends AppCompatActivity {
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
         createInfoCard(node);
-        //createPlanet(objectName, node, 0.7f, laptopRenderable); //testing with laptop model for now.
-
     }
     private Node createInfoCard(TransformableNode parent){
         Node infoCard = new Node();
@@ -204,30 +195,4 @@ public class CameraActivity extends AppCompatActivity {
 
         return infoCard;
     }
-    /*private Node createPlanet(
-            String name,
-            TransformableNode parent,
-            float auFromParent,
-            ModelRenderable renderable) {
-
-        // Create the planet and position it relative to the sun.
-        Objects object = new Objects( this, name, renderable, parent);
-
-        object.setParent(parent);
-        object.setLocalPosition(new Vector3(auFromParent, 0.0f, 0.0f));
-
-
-        Node solarControls = new Node();
-        solarControls.setParent(parent);
-        solarControls.setEnabled(true);
-        solarControls.setRenderable(cardRenderable);
-        TextView textView = (TextView) cardRenderable.getView();
-        textView.setText(this.objectName);
-        solarControls.setLocalPosition(new Vector3(0.0f, 0.25f, 0.0f));
-        View solarControlsView = cardRenderable.getView();
-        parent.setOnTapListener(
-                (hitTestResult, motionEvent) -> solarControls.setEnabled(!solarControls.isEnabled()));
-
-        return object;
-    }*/
 }
