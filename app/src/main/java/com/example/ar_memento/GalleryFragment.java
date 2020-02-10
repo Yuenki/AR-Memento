@@ -13,6 +13,10 @@ public class GalleryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        container.clearDisappearingChildren();
+        if(container != null){
+            container.removeAllViews();
+        }
         return inflater.inflate(R.layout.fragment_gallery,container,false);
     }
 }

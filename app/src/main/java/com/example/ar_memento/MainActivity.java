@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
         //Connects buttons to corresponding buttons in activity_main.
         //ImgButton  =findViewById(R.id.ImgButton);
-        scannerButton = findViewById(R.id.scannerButton);
+        scannerButton = (Button) findViewById(R.id.scannerButton);
         onResume();
 
     }
