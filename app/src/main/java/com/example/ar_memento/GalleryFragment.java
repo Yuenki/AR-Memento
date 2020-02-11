@@ -1,5 +1,6 @@
 package com.example.ar_memento;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ public class GalleryFragment extends Fragment {
         if(container != null){
             container.removeAllViews();
         }
-        return inflater.inflate(R.layout.fragment_gallery,container,false);
+        View view =inflater.inflate(R.layout.fragment_gallery,container,false);
+        //view.setBackgroundColor(Color.WHITE);
+        return view;
     }
 }
