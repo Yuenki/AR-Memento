@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
 import com.google.ar.sceneform.FrameTime;
+import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class ScannerActivity extends AppCompatActivity {
     private ArFragment arFragment;
@@ -21,9 +23,13 @@ public class ScannerActivity extends AppCompatActivity {
     // Augmented image and its associated center pose anchor, keyed by the augmented image in
     // the database.
     private final Map<AugmentedImage, ScannerImageNode> augmentedImageMap = new HashMap<>();
+    CompletableFuture<ViewRenderable> infoCardStage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO: Figure out how to get a context setView will like! Pass
+        //  it in from ScannerActivity?
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
@@ -31,6 +37,7 @@ public class ScannerActivity extends AppCompatActivity {
         // Overlay, img view, that prompts user to fit the image they are scanning.
         fitToScanView = findViewById(R.id.image_view_fit_to_scan);
         arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
+        infoCardStage = ViewRenderable.builder().setView(this, R.layout.card_view).build();
     }
 
     @Override
@@ -69,7 +76,7 @@ public class ScannerActivity extends AppCompatActivity {
                     // Create a new anchor for newly found images.
                     if (!augmentedImageMap.containsKey(augmentedImage)) {
                         ScannerImageNode node = new ScannerImageNode(this);
-                        node.setImage(augmentedImage);
+                        node.setImage(augmentedImage, arFragment, this, infoCardStage);
                         augmentedImageMap.put(augmentedImage, node);
                         arFragment.getArSceneView().getScene().addChild(node);
                     }
