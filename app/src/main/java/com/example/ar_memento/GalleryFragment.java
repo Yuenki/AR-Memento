@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -30,7 +31,10 @@ public class GalleryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        container.clearDisappearingChildren();
+        if(container != null){
+            container.removeAllViews();
+        }
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         mImageView = view.findViewById(R.id.image_view);
         mChooseBtn=view.findViewById(R.id.choose_image_btn);
@@ -57,6 +61,7 @@ public class GalleryFragment extends Fragment {
                     //if System OS is less than marshmallow
                     pickImageFromGallery();
                 }
+
             }
         });
 

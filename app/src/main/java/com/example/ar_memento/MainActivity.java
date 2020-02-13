@@ -1,5 +1,6 @@
 package com.example.ar_memento;
 
+import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,13 +27,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Button ImgButton;
     Button scannerButton;
 
-
+    public static FragmentManager fragmentManager;
     private DrawerLayout mNavDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // nav_drawer_layout includes activity_main.
         setContentView(R.layout.nav_drawer_layout);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment(), null).addToBackStack(null).commit();
                 break;
         }
         mNavDrawer.closeDrawer(GravityCompat.START);
