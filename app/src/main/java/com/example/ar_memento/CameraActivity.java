@@ -50,8 +50,10 @@ public class CameraActivity extends AppCompatActivity {
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
 
         InitializeAssetsMenu();
+
         CompletableFuture<ViewRenderable> solarControlsStage =
                 ViewRenderable.builder().setView(this, R.layout.card_view).build();
+
         CompletableFuture.allOf(
                 solarControlsStage)
                 .handle(

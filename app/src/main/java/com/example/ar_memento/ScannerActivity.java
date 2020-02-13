@@ -18,36 +18,49 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class ScannerActivity extends AppCompatActivity {
-    private ArFragment arFragment;
-    private ImageView fitToScanView;
+
+    //CompletableFuture<ViewRenderable> infoCardStage;
     // Augmented image and its associated center pose anchor, keyed by the augmented image in
     // the database.
     private final Map<AugmentedImage, ScannerImageNode> augmentedImageMap = new HashMap<>();
-    CompletableFuture<ViewRenderable> infoCardStage;
+    private ArFragment arFragment;
+    private ImageView fitToScanView;
+    private ViewRenderable scannerInfoCard_Vr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: Figure out how to get a context setView will like! Pass
-        //  it in from ScannerActivity?
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+
+
         // Overlay, img view, that prompts user to fit the image they are scanning.
         fitToScanView = findViewById(R.id.image_view_fit_to_scan);
-        arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
-        infoCardStage = ViewRenderable.builder().setView(this, R.layout.card_view).build();
+
+        // Enables ar session to update frames to make ar session work. Move up?
+        arFragment.getArSceneView()
+                .getScene()
+                .addOnUpdateListener(this::onUpdateFrame);
+
+        // REVIEW: Can this be moved to ScannerImageNode?
+        // Build the view renderable that will be passed to setImage().
+        ViewRenderable.builder()
+                .setView(this, R.layout.scanner_card_view)
+                .build()
+                .thenAccept(finishedVr -> scannerInfoCard_Vr = finishedVr);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // If Map is empty, show fitToScan to fill Map.
         if (augmentedImageMap.isEmpty()) {
             fitToScanView.setVisibility(View.VISIBLE);
         }
     }
 
+    // REVIEW: Can I delete Frametime parameter?
     private void onUpdateFrame(FrameTime frameTime) {
         Frame frame = arFragment.getArSceneView().getArFrame();
 
@@ -75,8 +88,17 @@ public class ScannerActivity extends AppCompatActivity {
 
                     // Create a new anchor for newly found images.
                     if (!augmentedImageMap.containsKey(augmentedImage)) {
+
+                        // Debug.
+                        String text2 = "scannerInfoCard_Vr is null!!!";
+                        if (scannerInfoCard_Vr == null) {
+                            SnackbarHelper.getInstance().showMessage(this, text2);
+                        }
+
                         ScannerImageNode node = new ScannerImageNode(this);
-                        node.setImage(augmentedImage, arFragment, this, infoCardStage);
+                        // TODO: scannerInfoCard_Vr is hardcoded.
+                        //  will need to be dynamic!
+                        node.setImage(augmentedImage, arFragment, scannerInfoCard_Vr);
                         augmentedImageMap.put(augmentedImage, node);
                         arFragment.getArSceneView().getScene().addChild(node);
                     }

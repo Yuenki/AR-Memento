@@ -8,8 +8,8 @@
 
     <!--        references ScannerARFragment.java-->
     <fragment
-        android:name="com.example.ar_memento.ScannerARFragment"
         android:id="@+id/ux_fragment"
+        android:name="com.example.ar_memento.ScannerARFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </fragment>

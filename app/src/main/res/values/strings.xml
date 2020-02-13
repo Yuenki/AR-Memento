@@ -11,5 +11,6 @@
     <string name="move_to_scanner_activity">Scanner</string>
     <string name="move_to_imgPick_activity">Image Pick</string>
     <string name="fit_image_to_scan">Fit image to scan!</string>
+    <string name="scanner_info_card_text">Scanner Info Card TEST</string>
 
 </resources>
