@@ -34,7 +34,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         // nav_drawer_layout includes activity_main.
         setContentView(R.layout.nav_drawer_layout);
-
+        /*
+FragmentManager fragmentManager = getSupportFragmentManager();
+if(findViewById(R.id.navigation_view) !=null) {
+    if(savedInstanceState !=null) {
+        return;
+    }
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    GalleryFragment galleryFragment = new GalleryFragment();
+    fragmentTransaction.add(R.id.navigation_view,galleryFragment,null);
+    fragmentTransaction.commit();
+}
+*/
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,19 +65,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         onResume();
 
     }
-
+@SuppressWarnings("StatementWithEmtpyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.GalleryPic:
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new GalleryFragment()).commit();
                 break;
             case R.id.profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
-                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment(), null).addToBackStack(null).commit();
+               // getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment(), null).addToBackStack(null).commit();
                 break;
         }
+
+        if(item.getItemId() == R.id.GalleryPic){
+            Fragment frag = new GalleryFragment();
+            getFragmentManager().popBackStack();
+           // MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view,null).addToBackStack(null).commit();
+
+            getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frag).addToBackStack(null).commit();
+        }
+
         mNavDrawer.closeDrawer(GravityCompat.START);
         return true;
     }

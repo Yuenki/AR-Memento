@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentManager;
 
 import static android.app.Activity.RESULT_OK;
 
-public class GalleryFragment extends Fragment {
+public class GalleryFragment extends Fragment{
     ImageView mImageView;
     Button mChooseBtn;
     private static final int IMAGE_PICK_CODE=1000;
@@ -61,6 +61,7 @@ public class GalleryFragment extends Fragment {
                     //if System OS is less than marshmallow
                     pickImageFromGallery();
                 }
+              //  MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view, new GalleryFragment(),null).addToBackStack(null).commit();
 
             }
         });
