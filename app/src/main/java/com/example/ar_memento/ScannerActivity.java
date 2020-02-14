@@ -32,7 +32,7 @@ public class ScannerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
-        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.scanner_fragment);
 
 
         // Overlay, img view, that prompts user to fit the image they are scanning.
@@ -78,8 +78,8 @@ public class ScannerActivity extends AppCompatActivity {
                 case PAUSED:
                     // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
                     // but not yet tracked.
-                    String text = "Detected Image " + augmentedImage.getIndex();
-                    SnackbarHelper.getInstance().showMessage(this, text);
+                    String status = "Detected Image " + augmentedImage.getIndex();
+                    SnackbarHelper.getInstance().showMessage(this, status);
                     break;
 
                 case TRACKING:
@@ -88,17 +88,10 @@ public class ScannerActivity extends AppCompatActivity {
 
                     // Create a new anchor for newly found images.
                     if (!augmentedImageMap.containsKey(augmentedImage)) {
-
-                        // Debug.
-                        String text2 = "scannerInfoCard_Vr is null!!!";
-                        if (scannerInfoCard_Vr == null) {
-                            SnackbarHelper.getInstance().showMessage(this, text2);
-                        }
-
                         ScannerImageNode node = new ScannerImageNode(this);
                         // TODO: scannerInfoCard_Vr is hardcoded.
                         //  will need to be dynamic!
-                        node.setImage(augmentedImage, arFragment, scannerInfoCard_Vr);
+                        node.setImage(augmentedImage, arFragment, scannerInfoCard_Vr, this);
                         augmentedImageMap.put(augmentedImage, node);
                         arFragment.getArSceneView().getScene().addChild(node);
                     }

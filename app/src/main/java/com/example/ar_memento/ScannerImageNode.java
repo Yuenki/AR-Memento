@@ -1,5 +1,6 @@
 package com.example.ar_memento;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -22,6 +23,8 @@ public class ScannerImageNode extends AnchorNode {
     // the error handling and asynchronous loading.  The loading is started with the
     // first construction of an instance, and then used when the image is set.
     private static CompletableFuture<ModelRenderable> laptop;
+    private static CompletableFuture<ModelRenderable> whiteboard;
+    private static CompletableFuture<ModelRenderable> tree;
     private static final String TAG = "ScannerImageNode";
 
     public ScannerImageNode(Context context) {
@@ -32,15 +35,27 @@ public class ScannerImageNode extends AnchorNode {
                     .setSource(context, Uri.parse("Laptop_01.sfb"))
                     .build();
         }
+        if (whiteboard== null) {
+            whiteboard= ModelRenderable.builder()
+                    .setSource(context, Uri.parse("whiteboard.sfb"))
+                    .build();
+        }
+        if (tree== null) {
+            tree= ModelRenderable.builder()
+                    .setSource(context, Uri.parse("tree01.sfb"))
+                    .build();
+        }
     }
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
-    public void setImage(AugmentedImage image, ArFragment arFragment, ViewRenderable scannerInfoCard_Vr) {
+    public void setImage(AugmentedImage image, ArFragment arFragment, ViewRenderable scannerInfoCard_Vr, Activity act) {
         // IT IS VERY IMPORTANT THAT THE MODELS ARE FIRST LOADED!
         // TODO: This will have to be dynamic, to display certain AR objects.
-        if (!laptop.isDone()) {
-            CompletableFuture.allOf(laptop)
-                    .thenAccept((Void aVoid) -> setImage(image, arFragment, scannerInfoCard_Vr))
+        if (!laptop.isDone() || !whiteboard.isDone() || !tree.isDone()) {
+            String text = "Laptop Loading...";
+            SnackbarHelper.getInstance().showMessage(act, text);
+            CompletableFuture.allOf(laptop, whiteboard, tree)
+                    .thenAccept((Void aVoid) -> setImage(image, arFragment, scannerInfoCard_Vr, act))
                     .exceptionally(
                             throwable -> {
                                 Log.e(TAG, "Exception loading", throwable);
@@ -53,7 +68,12 @@ public class ScannerImageNode extends AnchorNode {
         TransformableNode tNode = new TransformableNode(arFragment.getTransformationSystem());
         tNode.setParent(this);
         // TODO: This will have to be dynamic, to display certain AR objects.
-        tNode.setRenderable(laptop.getNow(null));
+        if (image.getIndex() == 0) {
+            tNode.setRenderable(whiteboard.getNow(null));
+        } else if (image.getIndex() == 1) {
+            tNode.setRenderable(tree.getNow(null));
+        }
+//        tNode.setRenderable(laptop.getNow(null));
 
 
         Node infoCard = new Node();

@@ -8,13 +8,13 @@
 
     <!--        references ScannerARFragment.java-->
     <fragment
-        android:id="@+id/ux_fragment"
+        android:id="@+id/scanner_fragment"
         android:name="com.example.ar_memento.ScannerARFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </fragment>
 
-<!--    Used to set up the image to be scanned. Or maybe the AR object?-->
+<!--    Used to set fit to screen prompt-->
     <ImageView
         android:id="@+id/image_view_fit_to_scan"
         android:layout_width="match_parent"
