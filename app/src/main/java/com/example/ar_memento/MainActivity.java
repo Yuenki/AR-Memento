@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton slide_up_button;
     Button ImgButton;
     Button scannerButton;
+    Button toNotes;
 
     private DrawerLayout mNavDrawer;
     @Override
@@ -40,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         ImgButton  =findViewById(R.id.ImgButton);
         scannerButton = findViewById(R.id.scannerButton);
 
+        toNotes = findViewById(R.id.toNotes);
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -76,9 +80,11 @@ public class MainActivity extends AppCompatActivity {
         final Intent cameraIntent = new Intent(this, CameraActivity.class);
         final Intent ImgPick = new Intent(this,ImagePickActivity.class);
         final Intent scannerIntent = new Intent(this, ScannerActivity.class);
+        final Intent noteIntent = new Intent(this, Notes.class);
 
         scannerButton.setOnClickListener(s -> startActivity(scannerIntent));
-        ImgButton.setOnClickListener(v->startActivity(ImgPick));
+        ImgButton.setOnClickListener(v-> startActivity(ImgPick));
         slide_up_button.setOnClickListener(r -> startActivity(cameraIntent));
+        toNotes.setOnClickListener(n -> startActivity(noteIntent));
     }
 }

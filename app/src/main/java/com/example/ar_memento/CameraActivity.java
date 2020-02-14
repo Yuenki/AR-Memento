@@ -31,8 +31,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class CameraActivity extends AppCompatActivity {
-//    private static final String TAG = CameraActivity.class.getSimpleName();
-//    private static final double MIN_OPENGL_VERSION = 3.0;
+    private static final String TAG = CameraActivity.class.getSimpleName();
+    private static final double MIN_OPENGL_VERSION = 3.0;
 
     private ArFragment arFragment;
     private Uri selectedObject;
@@ -78,26 +78,26 @@ public class CameraActivity extends AppCompatActivity {
 
 
     // What proceeds here are just some compatibility checks.
-//    public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-//            Log.e(TAG, "Sceneform requires Android N or later");
-//            Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
-//            activity.finish();
-//            return false;
-//        }
-//        String openGlVersionString =
-//                ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE))
-//                        .getDeviceConfigurationInfo()
-//                        .getGlEsVersion();
-//        if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
-//            Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
-//            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
-//                    .show();
-//            activity.finish();
-//            return false;
-//        }
-//        return true;
-//    }
+    public static boolean checkIsSupportedDeviceOrFinish(final Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            Log.e(TAG, "Sceneform requires Android N or later");
+            Toast.makeText(activity, "Sceneform requires Android N or later", Toast.LENGTH_LONG).show();
+            activity.finish();
+            return false;
+        }
+        String openGlVersionString =
+                ((ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE))
+                        .getDeviceConfigurationInfo()
+                        .getGlEsVersion();
+        if (Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
+            Log.e(TAG, "Sceneform requires OpenGL ES 3.0 later");
+            Toast.makeText(activity, "Sceneform requires OpenGL ES 3.0 or later", Toast.LENGTH_LONG)
+                    .show();
+            activity.finish();
+            return false;
+        }
+        return true;
+    }
 
     private void InitializeAssetsMenu(){
         LinearLayout gallery = findViewById(R.id.asset_layout);

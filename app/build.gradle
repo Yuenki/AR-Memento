@@ -62,10 +62,10 @@ sceneform.asset('sampledata/models/Pencil_01.obj',
         'sampledata/models/Pencil_01.sfa',
         'src/main/assets/Pencil_01')
 
-sceneform.asset('sampledata/models/Sticky notes.obj',
+sceneform.asset('sampledata/models/Sticky Notes.obj',
         'default',
-        'sampledata/models/Sticky notes.sfa',
-        'src/main/assets/Sticky notes')
+        'sampledata/models/Sticky Notes.sfa',
+        'src/main/assets/Sticky Notes')
 
 sceneform.asset('sampledata/models/Notebook.obj',
         'default',
