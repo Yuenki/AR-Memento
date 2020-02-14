@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login">
+    tools:context=".Login">
 
 
 
@@ -16,7 +14,7 @@
         android:layout_marginBottom="25dp"
         android:background="@drawable/bg"
         android:fontFamily="cursive"
-        android:paddingVertical="100dp"
+        android:paddingVertical="600dp"
         android:textColor="@color/white"
         android:text="@string/login"
         android:textAlignment="center"
@@ -63,10 +61,4 @@
         android:background="@drawable/button_btn"
 
         />
-    <FrameLayout
-        android:id="@+id/LoginBitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
 </LinearLayout>

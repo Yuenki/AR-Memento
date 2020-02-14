@@ -77,6 +77,10 @@ if(findViewById(R.id.navigation_view) !=null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
                // getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment(), null).addToBackStack(null).commit();
                 break;
+            case  R.id.User:
+                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new Login()).commit();
+                break;
+
         }
 
         if(item.getItemId() == R.id.GalleryPic){
