@@ -7,9 +7,9 @@
         android:icon="@drawable/ic_image_black_24dp"
         android:title="Gallery" />
     <item
-        android:id="@+id/profile"
+        android:id="@+id/camera"
         android:icon="@drawable/ar_icon"
-        android:title="ViewAR" />
+        android:title="AR Camera" />
 
 <item android:title="Settings"
                 android:icon="@drawable/settings"

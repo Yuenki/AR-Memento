@@ -73,9 +73,9 @@ if(findViewById(R.id.navigation_view) !=null) {
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new GalleryFragment()).commit();
                 break;
-            case R.id.profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
-               // getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment(), null).addToBackStack(null).commit();
+            case R.id.camera:
+                //getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
+                startActivity(new Intent(this,CameraActivity.class));
                 break;
             case  R.id.User:
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new Login()).commit();
