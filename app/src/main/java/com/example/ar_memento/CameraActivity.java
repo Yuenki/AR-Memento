@@ -1,25 +1,15 @@
 package com.example.ar_memento;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.ar.core.Anchor;
-import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.ArSceneView;
-import com.google.ar.sceneform.FrameTime;
-import com.google.ar.sceneform.HitTestResult;
 import com.google.ar.sceneform.Node;
-import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
@@ -28,19 +18,12 @@ import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.view.GestureDetector;
-import com.google.ar.sceneform.FrameTime;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -62,23 +45,15 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Uncomment if the layout set is activity_camera
-//        // The proceeding section sets the toolbar back arrow to home screen.
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        // Display the back arrow to home screen.
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        if (!checkIsSupportedDeviceOrFinish(this)) {
-//            return;
-//        }
-
         setContentView(R.layout.activity_artest);
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
 
         InitializeAssetsMenu();
+
         CompletableFuture<ViewRenderable> solarControlsStage =
                 ViewRenderable.builder().setView(this, R.layout.card_view).build();
+
         CompletableFuture.allOf(
                 solarControlsStage)
                 .handle(
@@ -105,8 +80,6 @@ public class CameraActivity extends AppCompatActivity {
 
                 }
         );
-
-
     }
 
     // What proceeds here are just some compatibility checks.
