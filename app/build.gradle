@@ -86,3 +86,8 @@ sceneform.asset('sampledata/models/tree01.obj',
         'default',
         'sampledata/models/tree01.sfa',
         'src/main/assets/tree01')
+
+sceneform.asset('sampledata/models/Thick marker.obj',
+        'default',
+        'sampledata/models/Thick marker.sfa',
+        'src/main/assets/Thick marker')

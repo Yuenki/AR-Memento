@@ -36,7 +36,7 @@
     file: 'sampledata/models/whiteboard.obj',
     name: 'whiteboard',
     recenter: 'root',
-    scale: 0.00000001
+    scale: 0.0088
   },
   version: '0.54:2',
 }

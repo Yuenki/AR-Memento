@@ -38,7 +38,7 @@
     name: 'tree01',
     recenter: 'root',
     //scale: 0.0032420000000000001,
-    scale: 0.000001
+    scale: 0.0008
   },
   samplers: [
     {

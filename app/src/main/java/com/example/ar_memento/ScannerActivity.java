@@ -88,9 +88,7 @@ public class ScannerActivity extends AppCompatActivity {
 
                     // Create a new anchor for newly found images.
                     if (!augmentedImageMap.containsKey(augmentedImage)) {
-                        ScannerImageNode node = new ScannerImageNode(this);
-                        // TODO: scannerInfoCard_Vr is hardcoded.
-                        //  will need to be dynamic!
+                        ScannerImageNode node = new ScannerImageNode(this, augmentedImage.getIndex());
                         node.setImage(augmentedImage, arFragment, scannerInfoCard_Vr, this);
                         augmentedImageMap.put(augmentedImage, node);
                         arFragment.getArSceneView().getScene().addChild(node);
