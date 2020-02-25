@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,9 +69,9 @@ if(findViewById(R.id.navigation_view) !=null) {
 @SuppressWarnings("StatementWithEmtpyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        //this is where the logic happends when the user clicks in the nav bar to be sent to the right activity
         switch (item.getItemId()) {
             case R.id.GalleryPic:
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new GalleryFragment()).commit();
                 break;
             case R.id.camera:
@@ -80,7 +81,8 @@ if(findViewById(R.id.navigation_view) !=null) {
             case  R.id.User:
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new Login()).commit();
                 break;
-
+            case R.id.settings:
+                startActivity(new Intent(this,SettingsActivity.class));
         }
 
         if(item.getItemId() == R.id.GalleryPic){
@@ -90,6 +92,13 @@ if(findViewById(R.id.navigation_view) !=null) {
 
             getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frag).addToBackStack(null).commit();
         }
+    if(item.getItemId() == R.id.User){
+        Fragment frags = new Login();
+        getFragmentManager().popBackStack();
+        // MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view,null).addToBackStack(null).commit();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frags).addToBackStack(null).commit();
+    }
 
         mNavDrawer.closeDrawer(GravityCompat.START);
         return true;

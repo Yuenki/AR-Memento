@@ -10,13 +10,13 @@
         android:id="@+id/camera"
         android:icon="@drawable/ar_icon"
         android:title="AR Camera" />
-
+<!--
 <item android:title="Settings"
                 android:icon="@drawable/settings"
                 android:id="@+id/settings2"
                 app:showAsAction="always"
                 />
-
+-->
     <item android:title="Profile">
         <menu>
             <item android:id="@+id/User"
