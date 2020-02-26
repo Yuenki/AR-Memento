@@ -26,7 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageButton slide_up_button;
     //Button ImgButton;
-    Button scannerButton;
+//    Button scannerButton;
 
     public static FragmentManager fragmentManager;
     private DrawerLayout mNavDrawer;
