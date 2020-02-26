@@ -26,7 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageButton slide_up_button;
     //Button ImgButton;
-    Button scannerButton;
+//    Button scannerButton;
 
     public static FragmentManager fragmentManager;
     private DrawerLayout mNavDrawer;
@@ -62,7 +62,7 @@ if(findViewById(R.id.navigation_view) !=null) {
         slide_up_button = (ImageButton) findViewById(R.id.imageButton);
         //Connects buttons to corresponding buttons in activity_main.
         //ImgButton  =findViewById(R.id.ImgButton);
-        scannerButton = findViewById(R.id.scannerButton);
+//        scannerButton = findViewById(R.id.scannerButton);
         onResume();
 
     }
@@ -140,8 +140,8 @@ if(findViewById(R.id.navigation_view) !=null) {
         final Intent scannerIntent = new Intent(this, ScannerActivity.class);
 
 
-        scannerButton.setOnClickListener(s -> startActivity(scannerIntent));
+//        scannerButton.setOnClickListener(s -> startActivity(scannerIntent));
         //ImgButton.setOnClickListener(v->startActivity(ImgPick));
-        slide_up_button.setOnClickListener(r -> startActivity(cameraIntent));
+        slide_up_button.setOnClickListener(r -> startActivity(scannerIntent));
     }
 }
