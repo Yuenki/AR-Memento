@@ -37,8 +37,16 @@ public class ScannerImageNode extends AnchorNode {
         }
     }
 
+    public void loadAugmentedImage(Context context, int modelIndex) {
+        if (selected_CF_Mr == null) {
+            selected_CF_Mr= ModelRenderable.builder()
+                    .setSource(context, Uri.parse(models[modelIndex]))
+                    .build();
+        }
+    }
+
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
-    public void setImage(AugmentedImage image, ArFragment arFragment, ViewRenderable scannerInfoCard_Vr, Activity act) {
+    public void setARObject(AugmentedImage image, ArFragment arFragment, ViewRenderable scannerInfoCard_Vr, Activity act) {
         String text = "Laptop Loading...";
 
         // IT IS VERY IMPORTANT THAT THE MODEL IS FIRST LOADED!
@@ -47,7 +55,7 @@ public class ScannerImageNode extends AnchorNode {
                     .thenAccept((Void aVoid) ->
                     {
                         SnackbarHelper.getInstance().showMessage(act, text);
-                        setImage(image, arFragment, scannerInfoCard_Vr, act);
+                        setARObject(image, arFragment, scannerInfoCard_Vr, act);
                     })
                     .exceptionally(
                             throwable -> {
@@ -58,19 +66,19 @@ public class ScannerImageNode extends AnchorNode {
         // Set the anchor based on the center of the image.
         setAnchor(image.createAnchor(image.getCenterPose()));
 
-        TransformableNode tNode = new TransformableNode(arFragment.getTransformationSystem());
-        tNode.setParent(this);
-        tNode.setRenderable(selected_CF_Mr.getNow(null));
+        TransformableNode node_T = new TransformableNode(arFragment.getTransformationSystem());
+        node_T.setParent(this);
+        node_T.setRenderable(selected_CF_Mr.getNow(null));
 
         Node infoCard = new Node();
-        infoCard.setParent(tNode);
+        infoCard.setParent(node_T);
         infoCard.setEnabled(false);
         infoCard.setRenderable(scannerInfoCard_Vr);
         TextView textView = (TextView) scannerInfoCard_Vr.getView();
 
         textView.setText(models[image.getIndex()]);
         infoCard.setLocalPosition(new Vector3(0.0f, 0.20f, 0.0f));
-        tNode.setOnTapListener(
+        node_T.setOnTapListener(
                 (hitTestResult, motionEvent) -> infoCard.setEnabled(!infoCard.isEnabled()));
     }
 

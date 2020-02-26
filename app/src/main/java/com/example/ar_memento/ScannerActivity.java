@@ -15,7 +15,6 @@ import com.google.ar.sceneform.ux.ArFragment;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class ScannerActivity extends AppCompatActivity {
 
@@ -26,6 +25,7 @@ public class ScannerActivity extends AppCompatActivity {
     private ArFragment arFragment;
     private ImageView fitToScanView;
     private ViewRenderable scannerInfoCard_Vr;
+    private ScannerImageNode node_SI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,11 @@ public class ScannerActivity extends AppCompatActivity {
                 .getScene()
                 .addOnUpdateListener(this::onUpdateFrame);
 
+        // REVIEW: Can this not take any arguments?
+        node_SI = new ScannerImageNode(this, 0);
+
         // REVIEW: Can this be moved to ScannerImageNode?
-        // Build the view renderable that will be passed to setImage().
+        // Build the view renderable that will be passed to setARObject().
         ViewRenderable.builder()
                 .setView(this, R.layout.scanner_card_view)
                 .build()
@@ -57,6 +60,7 @@ public class ScannerActivity extends AppCompatActivity {
         // If Map is empty, show fitToScan to fill Map.
         if (augmentedImageMap.isEmpty()) {
             fitToScanView.setVisibility(View.VISIBLE);
+            SnackbarHelper.getInstance().showMessage(this, "augmentedImageMap is empty!");
         }
     }
 
@@ -88,10 +92,10 @@ public class ScannerActivity extends AppCompatActivity {
 
                     // Create a new anchor for newly found images.
                     if (!augmentedImageMap.containsKey(augmentedImage)) {
-                        ScannerImageNode node = new ScannerImageNode(this, augmentedImage.getIndex());
-                        node.setImage(augmentedImage, arFragment, scannerInfoCard_Vr, this);
-                        augmentedImageMap.put(augmentedImage, node);
-                        arFragment.getArSceneView().getScene().addChild(node);
+                        node_SI.loadAugmentedImage(this, augmentedImage.getIndex());
+                        node_SI.setARObject(augmentedImage, arFragment, scannerInfoCard_Vr, this);
+                        augmentedImageMap.put(augmentedImage, node_SI);
+                        arFragment.getArSceneView().getScene().addChild(node_SI);
                     }
                     break;
 
