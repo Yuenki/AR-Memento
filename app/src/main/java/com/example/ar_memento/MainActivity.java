@@ -7,7 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,29 +18,13 @@ import android.widget.ImageButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    ImageButton slide_up_button;
-    //Button ImgButton;
-//    Button scannerButton;
-
-    public static FragmentManager fragmentManager;
     private DrawerLayout mNavDrawer;
+    private ImageButton slide_up_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // nav_drawer_layout includes activity_main.
         setContentView(R.layout.nav_drawer_layout);
-        /*
-FragmentManager fragmentManager = getSupportFragmentManager();
-if(findViewById(R.id.navigation_view) !=null) {
-    if(savedInstanceState !=null) {
-        return;
-    }
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-    GalleryFragment galleryFragment = new GalleryFragment();
-    fragmentTransaction.add(R.id.navigation_view,galleryFragment,null);
-    fragmentTransaction.commit();
-}
-*/
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,69 +36,54 @@ if(findViewById(R.id.navigation_view) !=null) {
         mNavDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         slide_up_button = findViewById(R.id.imageButton);
-        //Connects buttons to corresponding buttons in activity_main.
-        //ImgButton  =findViewById(R.id.ImgButton);
-//        scannerButton = findViewById(R.id.scannerButton);
-
     }
 @SuppressWarnings("StatementWithEmtpyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //this is where the logic happends when the user clicks in the nav bar to be sent to the right activity
-        switch (item.getItemId()) {
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+    switch (item.getItemId()) {
             case R.id.nav_sel_home:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.nav_sel_add_image:
-                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new GalleryFragment()).commit();
+                Fragment frag_addImage = new AddImageFragment();
+                transaction.add(R.id.navigation_container, frag_addImage)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.camera:
-                //getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
                 startActivity(new Intent(this,CameraActivity.class));
                 break;
             case  R.id.nav_sel_user_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new Login()).commit();
+                Fragment frag_login= new LoginFragment();
+                transaction.add(R.id.navigation_container, frag_login)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.settings:
                 startActivity(new Intent(this,SettingsActivity.class));
-        }
-
-        if(item.getItemId() == R.id.nav_sel_add_image){
-            Fragment frag = new GalleryFragment();
-            getFragmentManager().popBackStack();
-           // MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view,null).addToBackStack(null).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frag).addToBackStack(null).commit();
-        }
-
-        if(item.getItemId() == R.id.nav_sel_user_profile){
-            Fragment frags = new Login();
-            getFragmentManager().popBackStack();
-            // MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view,null).addToBackStack(null).commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frags).addToBackStack(null).commit();
         }
 
         mNavDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        if(mNavDrawer.isDrawerOpen(GravityCompat.START)){
+//            mNavDrawer.closeDrawer(GravityCompat.START);
+//        }
+//    }
+
+
     @Override
-    public void onBackPressed() {
-        if(mNavDrawer.isDrawerOpen(GravityCompat.START)){
-            mNavDrawer.closeDrawer(GravityCompat.START);
-        } else{
-            super.onBackPressed();
-
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navbarselections, menu);
+        return super.onCreateOptionsMenu(menu);
     }
-
-
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            getMenuInflater().inflate(R.menu.navbarselections, menu);
-            return super.onCreateOptionsMenu(menu);
-        }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -130,13 +99,8 @@ if(findViewById(R.id.navigation_view) !=null) {
     @Override
     protected void onResume() {
         super.onResume();
-        final Intent cameraIntent = new Intent(this, CameraActivity.class);
-        final Intent ImgPick = new Intent(this,ImagePickActivity.class);
         final Intent scannerIntent = new Intent(this, ScannerActivity.class);
 
-
-//        scannerButton.setOnClickListener(s -> startActivity(scannerIntent));
-        //ImgButton.setOnClickListener(v->startActivity(ImgPick));
         slide_up_button.setOnClickListener(r -> startActivity(scannerIntent));
     }
 }

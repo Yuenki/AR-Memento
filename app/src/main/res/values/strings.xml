@@ -23,6 +23,8 @@
     <string name="user">User</string>
     <string name="setting">Setting</string>
     <string name="choose_image">Choose Image</string>
+    <string name="add_memento">Add Memento</string>
+    <string name="view_mementos">View Mementos</string>
 
 
 </resources>

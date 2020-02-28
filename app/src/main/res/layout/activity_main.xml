@@ -63,6 +63,8 @@
         app:srcCompat="@drawable/slideup_button" />
 
 <!-- This is needed for navbar.-->
+<!-- Stacks child views on top of each other, with the most recent child on
+top of the stack. Bottom of layout is top view.-->
     <FrameLayout
         android:id="@+id/navigation_container"
         android:layout_width="match_parent"

@@ -1,47 +1,51 @@
 package com.example.ar_memento;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.Objects;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
-public class ImagePickActivity extends AppCompatActivity {
-    ImageView mImageView;
-    Button mChooseBtn;
+import static android.app.Activity.RESULT_OK;
+
+public class AddImageFragment extends Fragment{
+    private ImageView mImageView;
+    private Button mChooseBtn;
     private static final int IMAGE_PICK_CODE=1000;
     private static final int PERMISSION_CODE=1001;
+    public AddImageFragment(){
+
+    }
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_pick);
-
-        //Toast.makeText(this, "Permisison Denied", Toast.LENGTH_SHORT).show();
-
-
-       //Views
-        mImageView=findViewById(R.id.image_view);
-        mChooseBtn = findViewById(R.id.choose_image_btn);
-
-        //handle button click
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+//        container.clearDisappearingChildren();
+//        if(container != null){
+//            container.removeAllViews();
+//        }
+        View view = inflater.inflate(R.layout.fragment_add_image,
+                container, false);
+        mImageView = view.findViewById(R.id.image_view);
+        mChooseBtn=view.findViewById(R.id.choose_image_btn);
         mChooseBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_DENIED) {
                         //permission denied; needs permission
                         String [] permisison= {
@@ -59,9 +63,15 @@ public class ImagePickActivity extends AppCompatActivity {
                     //if System OS is less than marshmallow
                     pickImageFromGallery();
                 }
+              //  MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view, new AddImageFragment(),null).addToBackStack(null).commit();
 
             }
         });
+
+
+//     ImageView imageView = (ImageView) view.findViewById(R.id.my_image);
+        return view;
+                //inflater.inflate(R.layout.fragment_gallery,container,false);
     }
 
     private void pickImageFromGallery() {
@@ -71,9 +81,11 @@ public class ImagePickActivity extends AppCompatActivity {
         startActivityForResult(intent,IMAGE_PICK_CODE);
     }
 
-    //handling of the result of runtime permission
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSION_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -82,19 +94,20 @@ public class ImagePickActivity extends AppCompatActivity {
                 }
                 else {
                     //permision denied
-                    Toast.makeText(this, "Permisison Denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mImageView.getContext(), "Permisison Denied", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
-    //handles the result of pick image
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode,
+                                 int resultCode,
+                                 @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             //set image to image view
             mImageView.setImageURI(data.getData());
         }
     }
-
 }
