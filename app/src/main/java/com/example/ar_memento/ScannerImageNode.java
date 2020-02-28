@@ -18,7 +18,7 @@ import com.google.ar.sceneform.ux.TransformableNode;
 import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings({"AndroidApiChecker"})
-public class ScannerImageNode extends AnchorNode {
+class ScannerImageNode extends AnchorNode {
     // We use completable futures here to simplify
     // the error handling and asynchronous loading.  The loading is started with the
     // first construction of an instance, and then used when the image is set.
@@ -26,7 +26,7 @@ public class ScannerImageNode extends AnchorNode {
     private String[] models = {"Thick marker.sfb", "tree01.sfb", "Pencil_01.sfb"};
     private final String TAG = "ScannerImageNode";
 
-    public ScannerImageNode(Context context, int modelIndex) {
+    ScannerImageNode(Context context, int modelIndex) {
         // TODO: This will have to be dynamic, to display certain AR objects.
         //  Can this be replaced by a callback function that takes in the one image?
         // Upon construction, start loading the model.
@@ -37,7 +37,7 @@ public class ScannerImageNode extends AnchorNode {
         }
     }
 
-    public void loadAugmentedImage(Context context, int modelIndex) {
+    void loadAugmentedImage(Context context, int modelIndex) {
         if (selected_CF_Mr == null) {
             selected_CF_Mr= ModelRenderable.builder()
                     .setSource(context, Uri.parse(models[modelIndex]))
@@ -46,7 +46,7 @@ public class ScannerImageNode extends AnchorNode {
     }
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
-    public void setARObject(AugmentedImage image, ArFragment arFragment, ViewRenderable scannerInfoCard_Vr, Activity act) {
+    void setARObject(AugmentedImage image, ArFragment arFragment, ViewRenderable scannerInfoCard_Vr, Activity act) {
         String text = "Laptop Loading...";
 
         // IT IS VERY IMPORTANT THAT THE MODEL IS FIRST LOADED!

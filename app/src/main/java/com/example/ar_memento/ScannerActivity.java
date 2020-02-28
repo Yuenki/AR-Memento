@@ -46,7 +46,7 @@ public class ScannerActivity extends AppCompatActivity {
         // REVIEW: Can this not take any arguments?
         node_SI = new ScannerImageNode(this, 0);
 
-        // REVIEW: Can this be moved to ScannerImageNode?
+        // REVIEW: Can this be moved to ScannerImageNode? No.
         // Build the view renderable that will be passed to setARObject().
         ViewRenderable.builder()
                 .setView(this, R.layout.scanner_card_view)

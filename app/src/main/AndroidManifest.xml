@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ar_memento">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--
-     The top xmlns:android and xmlns:tools seem to enable the android:
-     and tools: below.
-    -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!--
     Indicates that the app requires ARCore ("AR Required"). Ensures the app is
@@ -26,6 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ImagePickActivity"
@@ -52,9 +56,9 @@
             android:label="@string/title_activity_camera"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ar_memento.MainActivity" />
+<!--            <meta-data-->
+<!--                android:name="android.support.PARENT_ACTIVITY"-->
+<!--                android:value="com.example.ar_memento.MainActivity" />-->
 
         </activity>
         <!--
@@ -64,19 +68,7 @@
         -->
         <meta-data
             android:name="com.google.ar.core"
-            android:value="required" /> <!-- The .MainActivity is the first screen the user sees. -->
-        <!--
-        An activity represents a single screen with a user interface.
-        Although the activities work together to form a cohesive user
-        experience in the app,each one is independent of the others
-        -->
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:value="required" />
     </application>
 
 </manifest>

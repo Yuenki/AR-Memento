@@ -90,7 +90,7 @@ public class ScannerARFragment extends ArFragment {
     }
 
     // TODO: When and where should this be called?
-    private boolean updateAugmentedImageDatabase( AugmentedImageDatabase aidb) {
+    boolean updateAugmentedImageDatabase( AugmentedImageDatabase aidb) {
         Bitmap bitmap;
         try (InputStream inputStream = Objects.requireNonNull(getContext()).
                 getAssets().open("dog.jpg")) {

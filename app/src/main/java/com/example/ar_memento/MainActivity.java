@@ -1,6 +1,5 @@
 package com.example.ar_memento;
 
-import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,17 +8,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -70,34 +64,36 @@ if(findViewById(R.id.navigation_view) !=null) {
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //this is where the logic happends when the user clicks in the nav bar to be sent to the right activity
         switch (item.getItemId()) {
-            case R.id.GalleryPic:
+            case R.id.nav_sel_home:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.nav_sel_add_image:
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new GalleryFragment()).commit();
                 break;
             case R.id.camera:
                 //getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new MessageFragment()).commit();
                 startActivity(new Intent(this,CameraActivity.class));
                 break;
-            case  R.id.User:
+            case  R.id.nav_sel_user_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.navigation_container, new Login()).commit();
                 break;
             case R.id.settings:
                 startActivity(new Intent(this,SettingsActivity.class));
         }
 
-        if(item.getItemId() == R.id.GalleryPic){
+        if(item.getItemId() == R.id.nav_sel_add_image){
             Fragment frag = new GalleryFragment();
             getFragmentManager().popBackStack();
            // MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view,null).addToBackStack(null).commit();
-
             getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frag).addToBackStack(null).commit();
         }
-    if(item.getItemId() == R.id.User){
-        Fragment frags = new Login();
-        getFragmentManager().popBackStack();
-        // MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view,null).addToBackStack(null).commit();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frags).addToBackStack(null).commit();
-    }
+        if(item.getItemId() == R.id.nav_sel_user_profile){
+            Fragment frags = new Login();
+            getFragmentManager().popBackStack();
+            // MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view,null).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.navigation_container, frags).addToBackStack(null).commit();
+        }
 
         mNavDrawer.closeDrawer(GravityCompat.START);
         return true;
@@ -116,7 +112,7 @@ if(findViewById(R.id.navigation_view) !=null) {
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.navbarselections, menu);
             return super.onCreateOptionsMenu(menu);
         }
 
