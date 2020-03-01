@@ -1,6 +1,7 @@
 package com.example.ar_memento;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -26,14 +27,16 @@ public class ScannerActivity extends AppCompatActivity {
     private ImageView fitToScanView;
     private ViewRenderable scannerInfoCard_Vr;
     private ScannerImageNode node_SI;
+    private final static String TAG = "armemento: ScannerActivity.java";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "starting setContentView");
         setContentView(R.layout.activity_scanner);
+        Log.d(TAG, "finishing setContentView");
 
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.scanner_fragment);
-
 
         // Overlay, img view, that prompts user to fit the image they are scanning.
         fitToScanView = findViewById(R.id.image_view_fit_to_scan);
@@ -52,16 +55,19 @@ public class ScannerActivity extends AppCompatActivity {
                 .setView(this, R.layout.scanner_card_view)
                 .build()
                 .thenAccept(finishedVr -> scannerInfoCard_Vr = finishedVr);
+        Log.d(TAG, "Finished onCreate");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "Started onResume");
         // If Map is empty, show fitToScan to fill Map.
         if (augmentedImageMap.isEmpty()) {
             fitToScanView.setVisibility(View.VISIBLE);
             SnackbarHelper.getInstance().showMessage(this, "augmentedImageMap is empty!");
         }
+        Log.d(TAG, "Finished onResume");
     }
 
     // REVIEW: Can I delete Frametime parameter?

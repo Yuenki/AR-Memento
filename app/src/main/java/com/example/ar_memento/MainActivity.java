@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -44,26 +45,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
     switch (item.getItemId()) {
-            case R.id.nav_sel_home:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.nav_sel_add_image:
-                Fragment frag_addImage = new AddImageFragment();
-                transaction.add(R.id.navigation_container, frag_addImage)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-            case R.id.camera:
-                startActivity(new Intent(this,CameraActivity.class));
-                break;
-            case  R.id.nav_sel_user_profile:
-                Fragment frag_login= new LoginFragment();
-                transaction.add(R.id.navigation_container, frag_login)
-                        .addToBackStack(null)
-                        .commit();
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this,SettingsActivity.class));
+        // TODO: Check whether user is selecting home while in home.
+        case R.id.nav_sel_home:
+            startActivity(new Intent(this, MainActivity.class));
+            break;
+        case R.id.nav_sel_add_image:
+//            Fragment frag_addImage = new AddImageFragment();
+//            transaction.add(R.id.navigation_container, frag_addImage)
+//                    .addToBackStack(null)
+//                    .commit();
+            Toast toast = Toast.makeText(this,
+                    "Under development!", Toast.LENGTH_SHORT);
+            toast.show();
+            break;
+        case R.id.camera:
+            startActivity(new Intent(this,CameraActivity.class));
+            break;
+        case  R.id.nav_sel_user_profile:
+            Fragment frag_login= new LoginFragment();
+            transaction.add(R.id.navigation_container, frag_login)
+                    .addToBackStack(null)
+                    .commit();
+            break;
+        case R.id.settings:
+            startActivity(new Intent(this,SettingsActivity.class));
         }
 
         mNavDrawer.closeDrawer(GravityCompat.START);
@@ -85,16 +90,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId())
+//        {
+//            case R.id.settings:
+//                startActivity(new Intent(this, SettingsActivity.class));
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
     
     @Override
     protected void onResume() {

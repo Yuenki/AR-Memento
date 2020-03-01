@@ -3,8 +3,10 @@ package com.example.ar_memento;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.icu.text.ScientificNumberFormatter;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,68 +19,45 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 import static android.app.Activity.RESULT_OK;
 
-public class AddImageFragment extends Fragment{
+public class AddImageFragment extends Fragment {
     private ImageView mImageView;
-    private Button mChooseBtn;
+    private final String TAG = "armemento: AddImageFragment.java";
     private static final int IMAGE_PICK_CODE=1000;
     private static final int PERMISSION_CODE=1001;
-    public AddImageFragment(){
 
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-//        container.clearDisappearingChildren();
-//        if(container != null){
-//            container.removeAllViews();
-//        }
         View view = inflater.inflate(R.layout.fragment_add_image,
                 container, false);
+
         mImageView = view.findViewById(R.id.image_view);
-        mChooseBtn=view.findViewById(R.id.choose_image_btn);
-        mChooseBtn.setOnClickListener(new View.OnClickListener() {
+        Button mChooseBtn = view.findViewById(R.id.choose_image_btn);
 
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.READ_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_DENIED) {
-                        //permission denied; needs permission
-                        String [] permisison= {
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        };
-                        //pop up shows up for permisison
-                        requestPermissions(permisison,PERMISSION_CODE);
-                    }
-                    else {
-                        //permission granted
-                        pickImageFromGallery();
-                    }
-                }
-                else {
-                    //if System OS is less than marshmallow
-                    pickImageFromGallery();
-                }
-              //  MainActivity.fragmentManager.beginTransaction().replace(R.id.navigation_view, new AddImageFragment(),null).addToBackStack(null).commit();
-
+        mChooseBtn.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(
+                    Objects.requireNonNull(getActivity()),
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) {
+                //permission denied; needs permission
+                String [] permisison= {
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                };
+                //pop up shows up for permisison
+                requestPermissions(permisison,PERMISSION_CODE);
+            } else {
+                //permission granted
+                chooseImageToAdd();
             }
         });
 
-
-//     ImageView imageView = (ImageView) view.findViewById(R.id.my_image);
         return view;
-                //inflater.inflate(R.layout.fragment_gallery,container,false);
-    }
-
-    private void pickImageFromGallery() {
-        //user picks image
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent,IMAGE_PICK_CODE);
     }
 
     @Override
@@ -86,18 +65,22 @@ public class AddImageFragment extends Fragment{
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMISSION_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //permission granted
-                    pickImageFromGallery();
-                }
-                else {
-                    //permision denied
-                    Toast.makeText(mImageView.getContext(), "Permisison Denied", Toast.LENGTH_SHORT).show();
-                }
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                chooseImageToAdd();
+            } else {
+                Toast.makeText(mImageView.getContext(),
+                        "Permisison Denied", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void chooseImageToAdd() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,IMAGE_PICK_CODE);
     }
 
     @Override
@@ -106,8 +89,15 @@ public class AddImageFragment extends Fragment{
                                  @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            //set image to image view
-            mImageView.setImageURI(data.getData());
+            Uri uriImage= Objects.requireNonNull(data).getData();
+
+            mImageView.setImageURI(uriImage);
+            ScannerARFragment sARf = new ScannerARFragment();
+            if (!sARf.updateAugmentedImageDatabase(uriImage, getContext())
+            ) {
+                Log.d(TAG, "updatingAugmentedImageDatabase returned false");
+            }
+
         }
     }
 }
