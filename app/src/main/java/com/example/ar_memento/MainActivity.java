@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(null)
                     .commit();
             break;
+
         case R.id.settings:
             startActivity(new Intent(this,SettingsActivity.class));
         }
