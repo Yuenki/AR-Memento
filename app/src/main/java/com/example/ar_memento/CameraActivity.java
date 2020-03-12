@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Pose;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.ArSceneView;
 import com.google.ar.sceneform.Node;
@@ -17,6 +18,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.GestureDetector;
@@ -25,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -39,6 +42,9 @@ public class CameraActivity extends AppCompatActivity {
     private GestureDetector gestureDetector;
     private ArSceneView arSceneView;
     private String objectName;
+    Vector<Anchor> arranchors = new Vector<>();
+    Vector<TransformableNode> arrnode = new Vector<>();
+    Vector<AnchorNode> arranchornode = new Vector<>();
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     @Override
@@ -73,11 +79,11 @@ public class CameraActivity extends AppCompatActivity {
                     if (plane.getType() != Plane.Type.HORIZONTAL_UPWARD_FACING){
                         return;
                     }
-
                     Anchor anchor = hitResult.createAnchor();
+                    arranchors.addElement(anchor);
 
-                    placeObject(arFragment, anchor, selectedObject); //selectedObject is the renderable (like laptopRenderable)
-
+                    placeObject(arFragment, arranchors.lastElement(), selectedObject);
+                    //placeObject(arFragment, anchor, selectedObject); //selectedObject is the renderable (like laptopRenderable)
                 }
         );
     }
@@ -151,9 +157,13 @@ public class CameraActivity extends AppCompatActivity {
         TransformableNode node = new TransformableNode(arFragment.getTransformationSystem());
         node.setRenderable(renderable);
         node.setParent(anchorNode);
+        //node.setLocalPosition(new Vector3(0.1f, 0.0f, 0.0f));
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
+        arrnode.addElement(node); //keeps track of the transformable nodes
+        arranchornode.addElement(anchorNode); //keeps track of the anchor nodes
         createInfoCard(node);
+        spreadapart();
     }
     private Node createInfoCard(TransformableNode parent){
         Node infoCard = new Node();
@@ -167,5 +177,68 @@ public class CameraActivity extends AppCompatActivity {
                 (hitTestResult, motionEvent) -> infoCard.setEnabled(!infoCard.isEnabled()));
 
         return infoCard;
+    }
+    void spreadapart()
+    {
+        //here we will spread apart our objects
+        //march 6: getting array out of bounds error
+
+        if(arrnode.size() ==2){
+            double dist= getMetersBetweenAnchors(arranchors.elementAt(0),arranchors.elementAt(1));
+            System.out.printf("\n\ndist is %f",dist);
+            if(dist <0.2f){
+                arrnode.elementAt(1).setLocalPosition(new Vector3(0.1f,0.0f,0.0f));
+                arrnode.elementAt(0).setLocalPosition(new Vector3(-0.1f,0.0f,0.0f));
+            }
+        }
+        if(arrnode.size() ==3){
+            double dist1= getMetersBetweenAnchors(arranchors.elementAt(0),arranchors.elementAt(1));
+            double dist2= getMetersBetweenAnchors(arranchors.elementAt(0),arranchors.elementAt(2));
+            double dist3= getMetersBetweenAnchors(arranchors.elementAt(1),arranchors.elementAt(0));
+            double dist4= getMetersBetweenAnchors(arranchors.elementAt(1),arranchors.elementAt(2));
+            double dist5= getMetersBetweenAnchors(arranchors.elementAt(2),arranchors.elementAt(0));
+            double dist6= getMetersBetweenAnchors(arranchors.elementAt(2),arranchors.elementAt(1));
+            while(dist1 <0.2f || dist2<0.2f || dist3<0.2f || dist4<0.2f || dist5<0.2f || dist6<0.2f)
+            {
+                float a=0.3f, b=0.1f;
+                if (dist1 < 0.2f || dist2 < 0.2f) {
+                    arrnode.elementAt(0).setLocalPosition(new Vector3(a, 0.0f, b));
+                }
+                if (dist3 < 0.2f || dist4 < 0.2f) {
+                    arrnode.elementAt(1).setLocalPosition(new Vector3(a*-1, 0.0f, b*-1));
+                }
+                if (dist5 < 0.2f || dist6 < 0.2f) {
+                    arrnode.elementAt(2).setLocalPosition(new Vector3(b, 0.0f, a*-1));
+                }
+                a*=-1;
+                b*=-1;
+            }
+        }
+        if(arrnode.size() == 4){
+
+        }
+        if(arrnode.size() == 5){
+
+        }
+    }
+    float getMetersBetweenAnchors(Anchor anchor1, Anchor anchor2)
+    {
+        float[] distance_vector = anchor1.getPose().inverse()
+                .compose(anchor2.getPose()).getTranslation();
+        float totalDistanceSquared = 0.0f;
+        for(int i=0; i<3; ++i)
+            totalDistanceSquared += distance_vector[i]*distance_vector[i];
+        return (float) Math.sqrt(totalDistanceSquared);
+    }
+    //have two getdistance functions just to see which one works correctly or better.
+    private double getDistanceMeters(Pose pose0, Pose pose1) {
+
+        float distanceX = pose0.tx() - pose1.tx();
+        float distanceY = pose0.ty() - pose1.ty();
+        float distanceZ = pose0.tz() - pose1.tz();
+
+        return Math.sqrt(distanceX * distanceX +
+                distanceY * distanceY +
+                distanceZ * distanceZ);
     }
 }
