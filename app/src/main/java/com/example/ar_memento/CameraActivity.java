@@ -84,6 +84,11 @@ public class CameraActivity extends AppCompatActivity {
 
                     placeObject(arFragment, arranchors.lastElement(), selectedObject);
                     //placeObject(arFragment, anchor, selectedObject); //selectedObject is the renderable (like laptopRenderable)
+
+                    if(arranchors.size() >1)
+                    {
+                        spreadapart();
+                    }
                 }
         );
     }
@@ -163,7 +168,7 @@ public class CameraActivity extends AppCompatActivity {
         arrnode.addElement(node); //keeps track of the transformable nodes
         arranchornode.addElement(anchorNode); //keeps track of the anchor nodes
         createInfoCard(node);
-        spreadapart();
+        //spreadapart();
     }
     private Node createInfoCard(TransformableNode parent){
         Node infoCard = new Node();
@@ -174,46 +179,37 @@ public class CameraActivity extends AppCompatActivity {
         textView.setText(this.objectName);
         infoCard.setLocalPosition(new Vector3(0.0f, 0.25f, 0.0f));
         parent.setOnTapListener(
-                (hitTestResult, motionEvent) -> infoCard.setEnabled(!infoCard.isEnabled()));
+                (hitTestResult, motionEvent) -> {
+                    infoCard.setEnabled(!infoCard.isEnabled());
+                    spreadapart();
+                });
 
         return infoCard;
     }
     void spreadapart()
     {
         //here we will spread apart our objects
-        //march 6: getting array out of bounds error
-
         if(arrnode.size() ==2){
-            double dist= getMetersBetweenAnchors(arranchors.elementAt(0),arranchors.elementAt(1));
+            double dist= getDistanceMeters(arranchors.elementAt(0).getPose(),arranchors.elementAt(1).getPose());
             System.out.printf("\n\ndist is %f",dist);
             if(dist <0.2f){
                 arrnode.elementAt(1).setLocalPosition(new Vector3(0.1f,0.0f,0.0f));
                 arrnode.elementAt(0).setLocalPosition(new Vector3(-0.1f,0.0f,0.0f));
             }
         }
-        if(arrnode.size() ==3){
-            double dist1= getMetersBetweenAnchors(arranchors.elementAt(0),arranchors.elementAt(1));
-            double dist2= getMetersBetweenAnchors(arranchors.elementAt(0),arranchors.elementAt(2));
-            double dist3= getMetersBetweenAnchors(arranchors.elementAt(1),arranchors.elementAt(0));
-            double dist4= getMetersBetweenAnchors(arranchors.elementAt(1),arranchors.elementAt(2));
-            double dist5= getMetersBetweenAnchors(arranchors.elementAt(2),arranchors.elementAt(0));
-            double dist6= getMetersBetweenAnchors(arranchors.elementAt(2),arranchors.elementAt(1));
-            while(dist1 <0.2f || dist2<0.2f || dist3<0.2f || dist4<0.2f || dist5<0.2f || dist6<0.2f)
-            {
-                float a=0.3f, b=0.1f;
-                if (dist1 < 0.2f || dist2 < 0.2f) {
-                    arrnode.elementAt(0).setLocalPosition(new Vector3(a, 0.0f, b));
-                }
-                if (dist3 < 0.2f || dist4 < 0.2f) {
-                    arrnode.elementAt(1).setLocalPosition(new Vector3(a*-1, 0.0f, b*-1));
-                }
-                if (dist5 < 0.2f || dist6 < 0.2f) {
-                    arrnode.elementAt(2).setLocalPosition(new Vector3(b, 0.0f, a*-1));
-                }
-                a*=-1;
-                b*=-1;
+        if(arrnode.size() ==3){ //first two anchors were already spread apart so only check for last one
+            double dist1= getDistanceMeters(arranchors.elementAt(2).getPose(),arranchors.elementAt(0).getPose());
+            double dist2= getDistanceMeters(arranchors.elementAt(2).getPose(),arranchors.elementAt(1).getPose());
+            if(dist1 <0.2f && dist2 <0.2f){
+                arrnode.elementAt(2).setLocalPosition(new Vector3(0.0f,0.0f,-0.2f)); //move it back
             }
+            else if(dist1<0.2f && dist2 >0.2f){
+                arrnode.elementAt(2).setLocalPosition(new Vector3(0.0f,0.0f,0.2f)); //move it closer to us
+            }
+            else
+                arrnode.elementAt(2).setLocalPosition(new Vector3(0.2f,0.0f,0.0f)); //move it towards the right
         }
+        //try to implement a function which returns a location that has enough spaces between itself and the other objects.
         if(arrnode.size() == 4){
 
         }
