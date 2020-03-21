@@ -27,10 +27,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Edit"></activity>
+        <activity
+            android:name=".Content"
+            android:label="@string/title_activity_content"
+            android:parentActivityName=".Notes"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ar_memento.Notes" />
+        </activity>
         <activity android:name=".AddNote">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Notes"/>
+                android:value=".Notes" />
         </activity>
         <activity android:name=".Notes" />
         <activity

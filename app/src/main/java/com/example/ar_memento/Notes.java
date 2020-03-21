@@ -2,6 +2,7 @@ package com.example.ar_memento;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -10,11 +11,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class Notes extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView recyclerView;
+    Adapter adapter;
+    List<NoteData> notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +30,15 @@ public class Notes extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
+        NoteDatabase db = new NoteDatabase(this);
+        notes = db.getNotes();
 
         recyclerView = findViewById(R.id.listOfNotes);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new Adapter(this,notes);
+        recyclerView.setAdapter(adapter);
+
+
     }
 
     @Override

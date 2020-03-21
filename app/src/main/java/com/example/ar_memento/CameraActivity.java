@@ -143,13 +143,17 @@ public class CameraActivity extends AppCompatActivity {
 
     }
 
-    private void addNodeToScene(ArFragment arFragment, Anchor anchor, Renderable renderable){
-        AnchorNode anchorNode = new AnchorNode(anchor);
-        TransformableNode node = new TransformableNode(arFragment.getTransformationSystem());
-        node.setRenderable(renderable);
-        node.setParent(anchorNode);
-        arFragment.getArSceneView().getScene().addChild(anchorNode);
-        node.select();
+    private void addNodeToScene(ArFragment arFragment, Anchor anchor, Renderable renderable) {
+        try {
+            AnchorNode anchorNode = new AnchorNode(anchor);
+            TransformableNode node = new TransformableNode(arFragment.getTransformationSystem());
+            node.setRenderable(renderable);
+            node.setParent(anchorNode);
+            arFragment.getArSceneView().getScene().addChild(anchorNode);
+            node.select();
+        } catch (Exception e) {
+            Toast.makeText(this, "Please choose a object", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
