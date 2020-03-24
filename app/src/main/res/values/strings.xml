@@ -5,12 +5,27 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="main_img_view_desc">Main Header</string>
     <string name="main_img_btn_desc">Slide up button</string>
-
+    <string name="Username">Username</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="move_to_camera_screen">Move to Camera screen</string>
     <string name="move_to_scanner_activity">Scanner</string>
     <string name="move_to_imgPick_activity">Image Pick</string>
     <string name="fit_image_to_scan">Fit image to scan!</string>
+    <string name="scanner_info_card_text">Scanner Info Card TEST</string>
+    <string name="login">Login</string>
+    <string name="user_name">User name</string>
+    <string name="password">Password</string>
+    <string name="Password">password</string>
+    <string name="myToolbar">myToolbar</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="gallery">Gallery</string>
+    <string name="user">User</string>
+    <string name="setting">Setting</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="add_memento">Add Memento</string>
+    <string name="view_mementos">View Mementos</string>
+
     <string name="title_activity_content">Content</string>
 
 </resources>

@@ -2,6 +2,7 @@
   <dictionary name="fernando">
     <words>
       <w>opengl</w>
+      <w>renderable</w>
     </words>
   </dictionary>
 </component>

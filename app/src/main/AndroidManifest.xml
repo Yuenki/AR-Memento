@@ -2,12 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ar_memento">
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--
-     The top xmlns:android and xmlns:tools seem to enable the android:
-     and tools: below.
-    -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <!--
     Indicates that the app requires ARCore ("AR Required"). Ensures the app is
@@ -27,6 +22,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".Edit"></activity>
         <activity
             android:name=".Content"
@@ -64,9 +68,10 @@
             android:label="@string/title_activity_camera"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ar_memento.MainActivity" />
+<!--            <meta-data-->
+<!--                android:name="android.support.PARENT_ACTIVITY"-->
+<!--                android:value="com.example.ar_memento.MainActivity" />-->
+
         </activity>
         <!--
          Indicates that the app requires ARCore ("AR Required"). Causes the
@@ -90,6 +95,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
