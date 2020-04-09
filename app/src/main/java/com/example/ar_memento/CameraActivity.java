@@ -1,6 +1,7 @@
 package com.example.ar_memento;
 
 import android.app.AlertDialog;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -42,12 +43,13 @@ public class CameraActivity extends AppCompatActivity {
     private GestureDetector gestureDetector;
     private ArSceneView arSceneView;
     private String objectName;
+    private int resID;
     Vector<Anchor> arranchors = new Vector<>();
     Vector<TransformableNode> arrnode = new Vector<>();
     Vector<AnchorNode> arranchornode = new Vector<>();
 
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
-    @Override
+    //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -58,7 +60,7 @@ public class CameraActivity extends AppCompatActivity {
         InitializeAssetsMenu();
 
         CompletableFuture<ViewRenderable> solarControlsStage =
-                ViewRenderable.builder().setView(this, R.layout.card_view).build();
+                ViewRenderable.builder().setView(this, R.layout.card_view2).build();
 
         CompletableFuture.allOf(
                 solarControlsStage)
@@ -83,7 +85,6 @@ public class CameraActivity extends AppCompatActivity {
                     arranchors.addElement(anchor);
 
                     placeObject(arFragment, arranchors.lastElement(), selectedObject);
-                    //placeObject(arFragment, anchor, selectedObject); //selectedObject is the renderable (like laptopRenderable)
 
                     if(arranchors.size() >1)
                     {
@@ -121,25 +122,26 @@ public class CameraActivity extends AppCompatActivity {
         ImageView pencil = new ImageView(this);
         pencil.setImageResource(R.drawable.pencil_thumb);
         pencil.setContentDescription("pencil");
-        pencil.setOnClickListener(view -> {selectedObject = Uri.parse("Pencil_01.sfb");objectName= "Pencil";});
+        pencil.setOnClickListener(view -> {selectedObject = Uri.parse("Pencil_01.sfb");objectName= "Pencil"; resID= R.drawable.pencil_thumb;});
         gallery.addView(pencil);
 
         ImageView eraser = new ImageView(this);
         eraser.setImageResource(R.drawable.eraser_thumb);
         eraser.setContentDescription("eraser");
-        eraser.setOnClickListener(view -> {selectedObject = Uri.parse("Eraser_01(1).sfb");objectName="Eraser";});
+        eraser.setOnClickListener(view -> {selectedObject = Uri.parse("Eraser_01(1).sfb");objectName="Eraser"; resID= R.drawable.eraser_thumb;});
         gallery.addView(eraser);
 
         ImageView laptop = new ImageView(this);
         laptop.setImageResource(R.drawable.laptop_thumb);
         laptop.setContentDescription("laptop");
-        laptop.setOnClickListener(view -> {selectedObject = Uri.parse("Laptop_01.sfb");objectName="Laptop";});
+        laptop.setOnClickListener(view -> {selectedObject = Uri.parse("Laptop_01.sfb");objectName="Laptop"; resID= R.drawable.laptop_thumb;});
         gallery.addView(laptop);
 
         ImageView notebook = new ImageView(this);
         notebook.setImageResource(R.drawable.notebook_thumb);
         notebook.setContentDescription("notebook");
-        notebook.setOnClickListener(view -> {selectedObject = Uri.parse("Notebook.sfb");objectName="Notebook";});
+
+        notebook.setOnClickListener(view -> {selectedObject = Uri.parse("Notebook.sfb");objectName="Notebook"; resID= R.drawable.notebook_thumb;});
         gallery.addView(notebook);
     }
 
@@ -173,10 +175,12 @@ public class CameraActivity extends AppCompatActivity {
     private Node createInfoCard(TransformableNode parent){
         Node infoCard = new Node();
         infoCard.setParent(parent);
-        infoCard.setEnabled(true);
+        infoCard.setEnabled(false);
         infoCard.setRenderable(cardRenderable);
-        TextView textView = (TextView)cardRenderable.getView();
-        textView.setText(this.objectName);
+        //TextView textView = (TextView)cardRenderable.getView();
+        //textView.setText(this.objectName);
+        ImageView imageView1 = (ImageView)cardRenderable.getView();
+        imageView1.setImageResource(resID); //here we will have a variable that will have different image for each respective object.
         infoCard.setLocalPosition(new Vector3(0.0f, 0.25f, 0.0f));
         parent.setOnTapListener(
                 (hitTestResult, motionEvent) -> {

@@ -14,8 +14,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
+
+
+
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/planetInfoCard"
+    android:id="@+id/InfoCard"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_weight="1"
@@ -25,3 +28,5 @@
     android:padding="6dp"
     android:text=""
     android:textAlignment="center" />
+
+
