@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.provider.ContactsContract;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Content extends AppCompatActivity {
+public class ContentActivity extends AppCompatActivity {
 
     TextView nContent;
     NoteDatabase db;
@@ -51,7 +49,7 @@ public class Content extends AppCompatActivity {
             public void onClick(View view) {
                db.deleteNote(note.getId());
                Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-               startActivity(new Intent(getApplicationContext(), Notes.class));
+               startActivity(new Intent(getApplicationContext(), NotesActivity.class));
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,7 +66,7 @@ public class Content extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.edit) {
             Toast.makeText(this, "Edit Note", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, Edit.class);
+            Intent i = new Intent(this, EditActivity.class);
             i.putExtra("ID", note.getId());
             startActivity(i);
         }

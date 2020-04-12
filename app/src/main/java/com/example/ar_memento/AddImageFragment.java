@@ -1,6 +1,7 @@
 package com.example.ar_memento;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.text.ScientificNumberFormatter;
@@ -90,10 +91,11 @@ public class AddImageFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             Uri uriImage= Objects.requireNonNull(data).getData();
+            Context AIFcontext = Objects.requireNonNull(getContext());
 
             mImageView.setImageURI(uriImage);
             ScannerARFragment sARf = new ScannerARFragment();
-            if (!sARf.updateAugmentedImageDatabase(uriImage, getContext())
+            if (!sARf.updateAugmentedImageDatabase(uriImage, AIFcontext)
             ) {
                 Log.d(TAG, "updatingAugmentedImageDatabase returned false");
             }

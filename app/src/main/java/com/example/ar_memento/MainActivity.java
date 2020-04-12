@@ -13,16 +13,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageButton slide_up_button;
-    Button toNotes;
-
-
     private DrawerLayout mNavDrawer;
 
 
@@ -42,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         slide_up_button = findViewById(R.id.imageButton);
-        toNotes = findViewById(R.id.toNotes);
     }
 @SuppressWarnings("StatementWithEmtpyBody")
     @Override
@@ -66,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         case R.id.camera:
             startActivity(new Intent(this,CameraActivity.class));
             break;
-        case  R.id.nav_sel_user_profile:
+        case R.id.add_notes:
+            startActivity(new Intent(this, NotesActivity.class));
+            break;
+        case R.id.nav_sel_user_profile:
             Fragment frag_login= new LoginFragment();
             transaction.add(R.id.navigation_container, frag_login)
                     .addToBackStack(null)
@@ -111,9 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         final Intent scannerIntent = new Intent(this, ScannerActivity.class);
-        final Intent notesIntent = new Intent(this, Notes.class);
 
-        toNotes.setOnClickListener(i->startActivity(notesIntent));
         slide_up_button.setOnClickListener(r -> startActivity(scannerIntent));
     }
 }

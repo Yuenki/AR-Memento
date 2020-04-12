@@ -22,42 +22,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".Edit"></activity>
-        <activity
-            android:name=".Content"
-            android:label="@string/title_activity_content"
-            android:parentActivityName=".Notes"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ar_memento.Notes" />
-        </activity>
-        <activity android:name=".AddNote">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Notes" />
-        </activity>
-        <activity android:name=".Notes" />
-        <activity
-            android:name=".ImagePickActivity"
-            android:label="ImagePick"
-            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".MainActivity" /> <!-- Activity that recognizes images. The symbol portion. -->
-        <!-- This should be used as a LAST RESORT to handle config changes. -->
-        <!-- android:configChanges="orientation|screenSize" -->
-        <!-- This^ does not restart the activity due to config changes -->
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ScannerActivity"
             android:label="ScannerActivity"
@@ -67,12 +44,29 @@
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-<!--            <meta-data-->
-<!--                android:name="android.support.PARENT_ACTIVITY"-->
-<!--                android:value="com.example.ar_memento.MainActivity" />-->
+            android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".ContentActivity"
+            android:label="@string/title_activity_content"
+            android:parentActivityName=".NotesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ar_memento.NotesActivity" />
         </activity>
+
+        <activity
+            android:name=".AddNoteActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NotesActivity" />
+        </activity>
+
+        <activity
+            android:name=".NotesActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".EditActivity" />
         <!--
          Indicates that the app requires ARCore ("AR Required"). Causes the
          Google Play Store to download and install Google Play Services for AR
@@ -80,22 +74,6 @@
         -->
         <meta-data
             android:name="com.google.ar.core"
-            android:value="required" /> <!-- The .MainActivity is the first screen the user sees. -->
-        <!--
-        An activity represents a single screen with a user interface.
-        Although the activities work together to form a cohesive user
-        experience in the app,each one is independent of the others
-        -->
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+            android:value="required" />
     </application>
-
 </manifest>

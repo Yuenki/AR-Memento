@@ -16,38 +16,28 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class Edit extends AppCompatActivity {
+
+public class AddNoteActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     EditText noteTitle, noteDetails;
     Calendar c;
     String todaysDate;
     String currentTime;
-    NoteDatabase db;
-    NoteData note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
-
-        Intent i = getIntent();
-        Long id = i.getLongExtra("ID", 0);
-        db = new NoteDatabase(this);
-        note =  db.getNote(id);
-
-
+        setContentView(R.layout.activity_add_note);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(note.getTitle());
+        getSupportActionBar().setTitle("New Note");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         noteTitle = findViewById(R.id.nTitle);
         noteDetails = findViewById(R.id.noteDetails);
-
-        noteTitle.setText(note.getTitle());
-        noteDetails.setText(note.getContent());
 
         noteTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -79,7 +69,7 @@ public class Edit extends AppCompatActivity {
 
     private String pad(int i) {
         if (i < 10)
-            return "0" + i;
+             return "0" + i;
         return String.valueOf(i);
     }
 
@@ -97,25 +87,18 @@ public class Edit extends AppCompatActivity {
             onBackPressed();
         }
         if(item.getItemId() == R.id.save) {
-            note.setTitle(noteTitle.getText().toString());
-            note.setContent(noteDetails.getText().toString());
-            int id = db.editNote(note);
-            if (id == note.getId()) {
-                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-                goToNotes();
-            }
-            else if (item.getItemId() == R.id.delete) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
-                onBackPressed();
-            }
+            NoteData note = new NoteData(noteTitle.getText().toString(), noteDetails.getText().toString(), todaysDate, currentTime);
+            NoteDatabase db = new NoteDatabase(this);
+            db.addNote(note);
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            goToNotes();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void goToNotes() {
-        Intent i = new Intent(this, Notes.class);
+        Intent i = new Intent(this, NotesActivity.class);
         startActivity((i));
     }
-
+    
 }
-
