@@ -26,5 +26,7 @@
     <string name="add_memento">Add Memento</string>
     <string name="view_mementos">View Mementos</string>
 
+    <string name="title_activity_content">Content</string>
+    <string name="add_notes">Add Notes</string>
 
 </resources>

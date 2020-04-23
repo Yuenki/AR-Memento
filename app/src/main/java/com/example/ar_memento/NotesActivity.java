@@ -8,23 +8,24 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
 
-public class Notes extends AppCompatActivity {
+public class NotesActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView recyclerView;
     Adapter adapter;
     List<NoteData> notes;
+    static String TAG = "armemento: NotesActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "started onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         toolbar = findViewById(R.id.toolbar);
@@ -48,10 +49,11 @@ public class Notes extends AppCompatActivity {
         return true;
     }
 
+    // This handles the + sign on the toolbar to add notes.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.add) {
-            Intent i = new Intent(this, AddNote.class);
+            Intent i = new Intent(this, AddNoteActivity.class);
             startActivity(i);
             Toast.makeText(this, "Add button has been clicked", Toast.LENGTH_SHORT).show();
         }

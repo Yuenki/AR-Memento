@@ -17,6 +17,11 @@
         android:title="@string/view_mementos"
         android:icon="@drawable/ar_icon"
         />
+    <item
+        android:id="@+id/add_notes"
+        android:title="@string/add_notes"
+        android:icon="@drawable/add_notes_24dp"
+        />
 
     <item android:title="@string/profile">
         <menu>

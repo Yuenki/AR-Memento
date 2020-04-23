@@ -15,12 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    ImageButton slide_up_button;
     private DrawerLayout mNavDrawer;
-    private ImageButton slide_up_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         case R.id.camera:
             startActivity(new Intent(this,CameraActivity.class));
             break;
-        case  R.id.nav_sel_user_profile:
+        case R.id.add_notes:
+            startActivity(new Intent(this, NotesActivity.class));
+            break;
+        case R.id.nav_sel_user_profile:
             Fragment frag_login= new LoginFragment();
             transaction.add(R.id.navigation_container, frag_login)
                     .addToBackStack(null)
