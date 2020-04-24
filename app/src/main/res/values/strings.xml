@@ -28,5 +28,9 @@
 
     <string name="title_activity_content">Content</string>
     <string name="add_notes">Add Notes</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="next">Next</string>
 
 </resources>
