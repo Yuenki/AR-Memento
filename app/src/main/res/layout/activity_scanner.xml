@@ -11,19 +11,31 @@
         android:id="@+id/scanner_fragment"
         android:name="com.example.ar_memento.ScannerARFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </fragment>
+        android:layout_height="match_parent" />
 
 <!--    Used to set fit to screen prompt-->
     <ImageView
         android:id="@+id/image_view_fit_to_scan"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="381dp"
+        android:layout_height="570dp"
         android:layout_gravity="center"
+        android:contentDescription="@string/fit_image_to_scan"
         android:scaleType="fitCenter"
-        android:src="@drawable/fit_to_scan"
-        android:contentDescription="@string/fit_image_to_scan">
-    </ImageView>
+        android:src="@drawable/fit_to_scan" />
+
+    <Button
+        android:id="@+id/btn_add_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="@string/add_images" />
+
+    <FrameLayout
+        android:id="@+id/container_add_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 
 </FrameLayout>
