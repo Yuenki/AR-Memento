@@ -65,7 +65,7 @@ public class ScannerActivity extends AppCompatActivity {
         // If Map is empty, show fitToScan to fill Map.
         if (augmentedImageMap.isEmpty()) {
             fitToScanView.setVisibility(View.VISIBLE);
-            SnackbarHelper.getInstance().showMessage(this, "augmentedImageMap is empty!");
+//            SnackbarHelper.getInstance().showMessage(this, "augmentedImageMap is empty!");
         }
         Log.d(TAG, "Finished onResume");
     }
@@ -88,8 +88,8 @@ public class ScannerActivity extends AppCompatActivity {
                 case PAUSED:
                     // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
                     // but not yet tracked.
-                    String status = "Detected Image " + augmentedImage.getIndex();
-                    SnackbarHelper.getInstance().showMessage(this, status);
+//                    String status = "Detected Image " + augmentedImage.getIndex();
+//                    SnackbarHelper.getInstance().showMessage(this, status);
                     break;
 
                 case TRACKING:

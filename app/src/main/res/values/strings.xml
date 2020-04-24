@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AR_Memento</string>
+    <string name="app_name">Memento</string>
     <string name="hello_ar">Hello AR!</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -32,5 +32,7 @@
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
     <string name="next">Next</string>
+    <string name="share_memento">Share Memento</string>
+    <string name="tutorial">Tutorial</string>
 
 </resources>
