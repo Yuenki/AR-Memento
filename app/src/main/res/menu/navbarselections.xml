@@ -8,19 +8,24 @@
         android:icon="@drawable/home_icon_24dp"
         />
     <item
-        android:id="@+id/nav_sel_add_image"
-        android:title="@string/add_memento"
-        android:icon="@drawable/ic_image_black_24dp"
+        android:id="@+id/share_memento"
+        android:title="@string/share_memento"
+        android:icon="@drawable/share_24dp"
         />
     <item
-        android:id="@+id/camera"
-        android:title="@string/view_mementos"
-        android:icon="@drawable/ar_icon"
+        android:id="@+id/tutorial"
+        android:title="@string/tutorial"
+        android:icon="@drawable/tutorial_24dp"
         />
     <item
         android:id="@+id/add_notes"
         android:title="@string/add_notes"
         android:icon="@drawable/add_notes_24dp"
+        />
+    <item
+        android:id="@+id/camera"
+        android:title="@string/view_mementos"
+        android:icon="@drawable/ar_icon"
         />
 
     <item android:title="@string/profile">

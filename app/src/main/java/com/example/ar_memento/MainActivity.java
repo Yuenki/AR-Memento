@@ -49,15 +49,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         case R.id.nav_sel_home:
             startActivity(new Intent(this, MainActivity.class));
             break;
-        case R.id.nav_sel_add_image:
-//            Fragment frag_addImage = new AddImageFragment();
-//            transaction.add(R.id.navigation_container, frag_addImage)
-//                    .addToBackStack(null)
-//                    .commit();
-            Toast toast = Toast.makeText(this,
-                    "Under development!", Toast.LENGTH_SHORT);
-            toast.show();
-            break;
+//        case R.id.nav_sel_add_image:
+////            Fragment frag_addImage = new AddImageFragment();
+////            transaction.add(R.id.navigation_container, frag_addImage)
+////                    .addToBackStack(null)
+////                    .commit();
+//            Toast toast = Toast.makeText(this,
+//                    "Under development!", Toast.LENGTH_SHORT);
+//            toast.show();
+//            break;
         case R.id.camera:
             startActivity(new Intent(this,CameraActivity.class));
             break;

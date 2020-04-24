@@ -3,9 +3,12 @@ package com.example.ar_memento;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
@@ -25,7 +28,9 @@ public class ScannerActivity extends AppCompatActivity {
     private final Map<AugmentedImage, ScannerImageNode> augmentedImageMap = new HashMap<>();
     private ArFragment arFragment;
     private ImageView fitToScanView;
+    private Button btn_add_image;
     private ViewRenderable scannerInfoCard_Vr;
+    private FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     private ScannerImageNode node_SI;
     private final static String TAG = "armemento: ScannerActivity.java";
 
@@ -40,6 +45,7 @@ public class ScannerActivity extends AppCompatActivity {
 
         // Overlay, img view, that prompts user to fit the image they are scanning.
         fitToScanView = findViewById(R.id.image_view_fit_to_scan);
+        btn_add_image = findViewById(R.id.btn_add_image);
 
         // Enables ar session to update frames to make ar session work. Move up?
         arFragment.getArSceneView()
@@ -65,8 +71,14 @@ public class ScannerActivity extends AppCompatActivity {
         // If Map is empty, show fitToScan to fill Map.
         if (augmentedImageMap.isEmpty()) {
             fitToScanView.setVisibility(View.VISIBLE);
-            SnackbarHelper.getInstance().showMessage(this, "augmentedImageMap is empty!");
+//            SnackbarHelper.getInstance().showMessage(this, "augmentedImageMap is empty!");
         }
+        btn_add_image.setOnClickListener(addImage -> {
+            Fragment frag_addImage = new AddImageFragment();
+            transaction.add(R.id.container_add_image, frag_addImage)
+                    .addToBackStack(null)
+                    .commit();
+        });
         Log.d(TAG, "Finished onResume");
     }
 
@@ -88,8 +100,8 @@ public class ScannerActivity extends AppCompatActivity {
                 case PAUSED:
                     // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
                     // but not yet tracked.
-                    String status = "Detected Image " + augmentedImage.getIndex();
-                    SnackbarHelper.getInstance().showMessage(this, status);
+//                    String status = "Detected Image " + augmentedImage.getIndex();
+//                    SnackbarHelper.getInstance().showMessage(this, status);
                     break;
 
                 case TRACKING:
