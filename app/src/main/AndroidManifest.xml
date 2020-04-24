@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ar_memento">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <!--
     Indicates that the app requires ARCore ("AR Required"). Ensures the app is
@@ -22,15 +23,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
 
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -44,8 +48,7 @@
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ContentActivity"
             android:label="@string/title_activity_content"
@@ -55,17 +58,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ar_memento.NotesActivity" />
         </activity>
-
-        <activity
-            android:name=".AddNoteActivity">
+        <activity android:name=".AddNoteActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NotesActivity" />
         </activity>
-
         <activity
             android:name=".NotesActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".EditActivity" />
         <!--
          Indicates that the app requires ARCore ("AR Required"). Causes the
@@ -76,4 +76,5 @@
             android:name="com.google.ar.core"
             android:value="required" />
     </application>
+
 </manifest>
