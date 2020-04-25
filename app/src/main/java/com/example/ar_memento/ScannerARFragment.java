@@ -83,7 +83,7 @@ public class ScannerARFragment extends ArFragment {
         // requireNonNull() Checks that the specified object reference is not null.
         // Designed primarily for doing parameter validation.
 
-        try (InputStream is = Objects.requireNonNull(getContext()).getAssets().open(SAMPLE_IMGDB)) {
+        try (InputStream is = requireContext().getAssets().open(SAMPLE_IMGDB)) {
             augmentedImageDatabase = AugmentedImageDatabase.deserialize(session, is);
         } catch (IOException e) {
             Log.e(TAG, "IO exception loading augmented image database.", e);

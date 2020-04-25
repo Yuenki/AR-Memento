@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.ar_memento.databinding.ActivityScannerBinding;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
 import com.google.ar.sceneform.FrameTime;
@@ -19,36 +20,42 @@ import com.google.ar.sceneform.ux.ArFragment;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ScannerActivity extends AppCompatActivity {
 
     //CompletableFuture<ViewRenderable> infoCardStage;
     // Augmented image and its associated center pose anchor, keyed by the augmented image in
     // the database.
+    private final static String TAG = "armemento: ScannerActivity.java";
     private final Map<AugmentedImage, ScannerImageNode> augmentedImageMap = new HashMap<>();
     private ArFragment arFragment;
-    private ImageView fitToScanView;
-    private Button btn_add_image;
-    private ViewRenderable scannerInfoCard_Vr;
-    private FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    private ImageView Iv_fitToScan;
+    private Button btn_addImage;
+    private ViewRenderable Vr_scannerInfoCard;
     private ScannerImageNode node_SI;
-    private final static String TAG = "armemento: ScannerActivity.java";
+    private FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//    private ActivityScannerBinding scannerBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityScannerBinding scannerBinding;
+
+        scannerBinding = ActivityScannerBinding.inflate(getLayoutInflater());
+        View view = scannerBinding.getRoot();
         Log.d(TAG, "starting setContentView");
-        setContentView(R.layout.activity_scanner);
+        setContentView(view);
         Log.d(TAG, "finishing setContentView");
 
-        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.scanner_fragment);
+        arFragment = (ArFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.scanner_fragment);
 
         // Overlay, img view, that prompts user to fit the image they are scanning.
-        fitToScanView = findViewById(R.id.image_view_fit_to_scan);
-        btn_add_image = findViewById(R.id.btn_add_image);
+        Iv_fitToScan = scannerBinding.IMGVFitToScan;
+        btn_addImage = scannerBinding.BTNAddImage;
 
-        // Enables ar session to update frames to make ar session work. Move up?
-        arFragment.getArSceneView()
+        Objects.requireNonNull(arFragment).getArSceneView()
                 .getScene()
                 .addOnUpdateListener(this::onUpdateFrame);
 
@@ -60,7 +67,7 @@ public class ScannerActivity extends AppCompatActivity {
         ViewRenderable.builder()
                 .setView(this, R.layout.scanner_card_view)
                 .build()
-                .thenAccept(finishedVr -> scannerInfoCard_Vr = finishedVr);
+                .thenAccept(finishedVr -> Vr_scannerInfoCard = finishedVr);
         Log.d(TAG, "Finished onCreate");
     }
 
@@ -70,12 +77,12 @@ public class ScannerActivity extends AppCompatActivity {
         Log.d(TAG, "Started onResume");
         // If Map is empty, show fitToScan to fill Map.
         if (augmentedImageMap.isEmpty()) {
-            fitToScanView.setVisibility(View.VISIBLE);
+            Iv_fitToScan.setVisibility(View.VISIBLE);
 //            SnackbarHelper.getInstance().showMessage(this, "augmentedImageMap is empty!");
         }
-        btn_add_image.setOnClickListener(addImage -> {
+        btn_addImage.setOnClickListener(addImage -> {
             Fragment frag_addImage = new AddImageFragment();
-            transaction.add(R.id.container_add_image, frag_addImage)
+            transaction.add(R.id.CONTAINER_add_image, frag_addImage)
                     .addToBackStack(null)
                     .commit();
         });
@@ -106,12 +113,12 @@ public class ScannerActivity extends AppCompatActivity {
 
                 case TRACKING:
                     // Have to switch to UI Thread to update View.
-                    fitToScanView.setVisibility(View.GONE);
+                    Iv_fitToScan.setVisibility(View.GONE);
 
                     // Create a new anchor for newly found images.
                     if (!augmentedImageMap.containsKey(augmentedImage)) {
                         node_SI.loadAugmentedImage(this, augmentedImage.getIndex());
-                        node_SI.setARObject(augmentedImage, arFragment, scannerInfoCard_Vr, this);
+                        node_SI.setARObject(augmentedImage, arFragment, Vr_scannerInfoCard, this);
                         augmentedImageMap.put(augmentedImage, node_SI);
                         arFragment.getArSceneView().getScene().addChild(node_SI);
                     }

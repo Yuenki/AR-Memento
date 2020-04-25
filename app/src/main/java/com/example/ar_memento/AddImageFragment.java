@@ -43,7 +43,7 @@ public class AddImageFragment extends Fragment {
 
         mChooseBtn.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(
-                    Objects.requireNonNull(getActivity()),
+                    requireActivity(),
                     Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_DENIED) {
                 //permission denied; needs permission
@@ -91,7 +91,7 @@ public class AddImageFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             Uri uriImage= Objects.requireNonNull(data).getData();
-            Context AIFcontext = Objects.requireNonNull(getContext());
+            Context AIFcontext = requireContext();
 
             mImageView.setImageURI(uriImage);
             ScannerARFragment sARf = new ScannerARFragment();
